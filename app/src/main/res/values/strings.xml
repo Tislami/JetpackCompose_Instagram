@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">InstagramClone_JetpackCompose</string>
+
+
+    //Registration
+    <string name="e_mail">E-Mail</string>
+    <string name="do_you_have_an_account">Do you have an account?</string>
+    <string name="sing_in">Sing in.</string>
+    <string name="skip">Skip</string>
+    <string name="name">Name</string>
+    <string name="id">Identification Number</string>
+    <string name="lastname">Lastname</string>
+    <string name="displayName">Display name</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="add_photo">Add photo</string>
+
+    //Login
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forgot_password"> Forgot password?</string>
+    <string name="log_in"> Log in</string>
+    <string name="or"> OR </string>
+    <string name="dont_have_an_account"> Don\'t have an account? </string>
+    <string name="sing_up"> Sign up. </string>
+    <string name="log_in_with_facebook">Log in with Facebook</string>
+    <string name="facebook">Facebook</string>
+
+    //Home
+    <string name="home"> Home </string>
+    <string name="search"> Search </string>
+    <string name="add"> Add </string>
+    <string name="favorite"> Favorite </string>
+    <string name="profile"> Profile </string>
+    <string name="close">Close</string>
+    <string name="message">Message</string>
+
+    //Profile
+    <string name="posts"> Posts </string>
+    <string name="followers"> Followers </string>
+    <string name="following"> Following </string>
+    <string name="edit_profile"> Edit profile </string>
+    <string name="profile_desc"> When you share photos and videos they\'ll appear on your profile</string>
+    <string name="share_your_first_post"> Share your first post</string>
+    <string name="follow"> Follow </string>
+    <string name="unfollow"> Unfollow </string>
+    <string name="contact"> Contact </string>
+
+    //Post
+    <string name="title"> Title </string>
+    <string name="description"> Description </string>
+    <string name="photo"> Photo </string>
+    <string name="send"> Send </string>
+    <string name="share"> Share </string>
+    <string name="title_error"> Title can not be empty.</string>
+    <string name="description_error"> Description can not be empty.</string>
+    <string name="photo_error"> Photo can not be empty.</string>
+
+
+    <string name="lorem"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet consequatur minus, necessitatibus nihil non nostrum officiis pariatur perspiciatis qui quia repellat repudiandae sunt vel velit? Accusamus, cupiditate nulla? Expedita. </string>
+
+
+</resources>
