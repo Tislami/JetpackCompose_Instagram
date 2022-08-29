@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.zeroone.instagramclone_jetpackcompose"
@@ -93,7 +93,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
 
     //Navigation
-    implementation 'androidx.navigation:navigation-compose:2.5.1'
+    implementation 'com.google.accompanist:accompanist-navigation-animation:0.26.2-beta'
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     //Horizontal Pager
