@@ -1,6 +1,7 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents
 
 import android.util.Log
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,9 +26,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.theme.InstagramClone_JetpackComposeTheme
 
 @Composable
 fun AppTextField(
@@ -90,4 +93,20 @@ fun AppTextField(
         )
 
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewLightInstagramTextField() {
+    InstagramClone_JetpackComposeTheme{
+        AppTextField(text = "", {},"Email")
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewDarkInstagramTextField() {
+    InstagramClone_JetpackComposeTheme(darkTheme = true){
+        AppTextField(text = "", {},"Email")
+    }
 }

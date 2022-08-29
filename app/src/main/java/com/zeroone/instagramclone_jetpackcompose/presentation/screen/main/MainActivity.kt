@@ -3,42 +3,33 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.zeroone.instagramclone_jetpackcompose.domain.use_case.auth.Login
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.login.LoginScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.registration.RegistrationScreen
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.theme.InstagramClone_JetpackComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            val navHostController = rememberAnimatedNavController()
 
-            val navController = rememberNavController()
+            InstagramClone_JetpackComposeTheme {
+                Surface(
+                    color = MaterialTheme.colors.background
+                ) {
 
-            Main(navController = navController)
-        }
-    }
-}
-
-@Composable
-fun Main(navController: NavController) {
-    InstagramClone_JetpackComposeTheme {
-        Surface(color = MaterialTheme.colors.background) {
-            RegistrationScreen()
+                    Main(navHostController = navHostController)
+                }
+            }
         }
     }
 }

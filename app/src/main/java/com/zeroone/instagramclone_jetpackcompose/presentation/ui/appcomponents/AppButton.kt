@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.theme.InstagramClone_JetpackComposeTheme
 
 @Composable
 fun AppButton(
@@ -35,8 +36,10 @@ fun AppButton(
 }
 
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun PreviewInstagramButton() {
-    AppButton(text = "fgfd", onClick = { /*TODO*/ })
+    InstagramClone_JetpackComposeTheme() {
+        AppButton(text = "Log in.", onClick = { /*TODO*/ })
+    }
 }

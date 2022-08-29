@@ -1,6 +1,5 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.common
 
-import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,30 +13,32 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextField
 import com.zeroone.instagramclone_jetpackcompose.R
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthState
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppLogoImage
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppText
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
 
-
+val TAG = "COMMONS"
 @Composable
 fun AppTextLogo() {
+
     AppLogoImage(
         painter = if (isSystemInDarkTheme()) painterResource(id = R.drawable.app_text_dark)
         else painterResource(id = R.drawable.app_text_light)
     )
 }
-
 @Composable
 fun AuthTextField(
-    emailTextValue : String,
+    authState: MutableState<AuthState>,
     emailTextValueChange: (String) -> Unit,
-    passwordTextValue : String,
     passwordTextValueChange: (String) -> Unit,
 ) {
+
     var isPasswordVisible by remember { mutableStateOf(false) }
 
+
     AppTextField(
-        text = emailTextValue,
+        text = authState.value.email,
         onValueChange = {emailTextValueChange(it)},
         hint = stringResource(id = R.string.e_mail),
         trailingOnClick = { emailTextValueChange("") },
@@ -46,7 +47,7 @@ fun AuthTextField(
     )
 
     AppTextField(
-        text = passwordTextValue,
+        text = authState.value.password,
         onValueChange = {passwordTextValueChange(it)},
         hint = stringResource(id = R.string.password),
         trailingOnClick = { isPasswordVisible = !isPasswordVisible },
@@ -56,12 +57,12 @@ fun AuthTextField(
         isPasswordVisible = isPasswordVisible,
         modifier = Modifier.fillMaxWidth()
     )
+
 }
 
 @Composable
 fun HaveAccount(text: String, buttonText: String,onClick: () -> Unit) {
     Row(
-        modifier = Modifier.padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         AppText(text = text)
@@ -98,9 +99,12 @@ fun Or() {
 }
 
 @Composable
-fun WithFB() {
+fun WithFB(onClick: ()-> Unit) {
+
     AppTextButton(
         text = stringResource(id = R.string.log_in_with_facebook),
+        onClick=onClick,
         modifier = Modifier.padding(vertical = 16.dp),
+
     )
 }
