@@ -22,7 +22,7 @@ import com.zeroone.instagramclone_jetpackcompose.R
 @Composable
 fun AppText(text: String,
             modifier: Modifier = Modifier,
-            color :Color = MaterialTheme.colors.onSurface,
+            color :Color = MaterialTheme.colors.onBackground,
             fontSize: TextUnit = TextUnit.Unspecified,
             fontStyle: FontStyle? = null,
             fontWeight: FontWeight? = null,
@@ -43,6 +43,7 @@ fun AppText(text: String,
         fontSize = fontSize,
         fontStyle = fontStyle,
         fontWeight = fontWeight,
-        style = style
+        style = style,
+        maxLines = maxLines
     )
 }

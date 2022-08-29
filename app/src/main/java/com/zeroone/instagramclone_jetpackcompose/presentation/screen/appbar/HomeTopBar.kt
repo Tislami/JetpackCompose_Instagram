@@ -2,10 +2,7 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
@@ -20,6 +17,8 @@ import com.zeroone.instagramclone_jetpackcompose.R
 @Composable
 fun HomeTopBar() {
     TopAppBar(
+        elevation = 1.dp,
+        backgroundColor = MaterialTheme.colors.surface,
         navigationIcon = {
             IconButton(
                 onClick = { /*TODO*/ }) {
@@ -30,7 +29,6 @@ fun HomeTopBar() {
             }
         },
         title = {
-
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -42,7 +40,6 @@ fun HomeTopBar() {
                     painter = painterResource(id = R.drawable.app_text_dark),
                     contentDescription = null
                 )
-
             }
         },
         actions = {
