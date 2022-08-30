@@ -4,12 +4,14 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryPostScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryUserScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.home.HomeScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.profile.EditProfileScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.profile.ProfileScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -20,7 +22,7 @@ fun MainNavGraph(
     AnimatedNavHost(
         navController = navController,
         route = Graph.Main,
-        startDestination = Graph.HOME,
+        startDestination = "discovery",
         modifier = modifier,
         enterTransition = { fadeIn(animationSpec = tween(0)) },
         exitTransition = { fadeOut(animationSpec = tween(0)) },
@@ -34,6 +36,12 @@ fun MainNavGraph(
         )
         composable(route="home"){
             HomeScreen()
+        }
+        composable(route="profile"){
+            EditProfileScreen()
+        }
+        composable(route="discovery"){
+            DiscoveryPostScreen()
         }
     }
 }

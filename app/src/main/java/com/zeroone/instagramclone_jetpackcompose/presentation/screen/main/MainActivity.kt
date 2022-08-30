@@ -10,6 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.profile.ProfileScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.theme.InstagramClone_JetpackComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 

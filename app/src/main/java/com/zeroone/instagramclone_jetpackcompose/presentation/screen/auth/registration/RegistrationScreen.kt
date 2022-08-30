@@ -1,7 +1,6 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.registration
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -9,12 +8,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zeroone.instagramclone_jetpackcompose.R
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.LoginTopBar
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.RegistrationTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthEvent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.common.*
-import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppButton
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppPrimaryButton
 
 @Composable
 fun RegistrationScreen(
@@ -54,7 +51,7 @@ private fun Content(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        AppButton(
+        AppPrimaryButton(
             text = stringResource(id = R.string.sing_up),
             onClick = { navigateToHome() },
             enabled = true,

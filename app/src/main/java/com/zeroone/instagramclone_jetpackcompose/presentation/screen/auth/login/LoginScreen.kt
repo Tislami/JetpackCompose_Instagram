@@ -1,7 +1,6 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.login
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,11 +10,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
 import com.zeroone.instagramclone_jetpackcompose.R
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.LoginTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthEvent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.common.*
-import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppButton
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppPrimaryButton
 
 @Composable
 fun LoginScreen(
@@ -58,7 +56,7 @@ private fun Content(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        AppButton(
+        AppPrimaryButton(
             text = stringResource(id = R.string.log_in),
             onClick = { navigateToHome() },
             enabled = true,
