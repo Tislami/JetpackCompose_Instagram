@@ -23,21 +23,20 @@ fun AppSearchTextField(
     value: String,
     onValueChange : (String)-> Unit,
     labelText: String,
-    textStyle: TextStyle = TextStyle(),
-    backGroundColor: Color = Color.Gray,
+    textStyle: TextStyle = TextStyle()
 ) {
     BasicTextField(
         value = value,
         onValueChange =  onValueChange,
-        cursorBrush = SolidColor(MaterialTheme.colors.onBackground),
+        cursorBrush = SolidColor(MaterialTheme.colors.onSurface),
         decorationBox = { innerTextField ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .height(44.dp)
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(backGroundColor),
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colors.secondaryVariant),
             ) {
                 Spacer(modifier = Modifier.width(4.dp))
                 Icon(imageVector = Icons.Default.Search, contentDescription = "")

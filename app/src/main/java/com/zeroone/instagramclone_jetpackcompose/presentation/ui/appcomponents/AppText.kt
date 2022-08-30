@@ -44,6 +44,7 @@ fun AppText(text: String,
         fontStyle = fontStyle,
         fontWeight = fontWeight,
         style = style,
-        maxLines = maxLines
+        maxLines = maxLines,
+        textAlign = textAlign
     )
 }

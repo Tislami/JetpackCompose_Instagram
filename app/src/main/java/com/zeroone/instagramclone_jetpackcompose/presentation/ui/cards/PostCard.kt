@@ -26,7 +26,7 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.A
 fun PostCard(post: Post) {
 
     Card(
-        elevation = 0.dp,
+        elevation = 1.dp,
         shape = RectangleShape,
     ) {
         Column{
@@ -84,11 +84,14 @@ private fun Bottom() {
         }
     }
 
-    AppText(
-        text = stringResource(id = R.string.lorem),
-        maxLines = 3,
-        fontSize = 14.sp
-    )
+    Row(modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)){
+        AppText(
+            text = stringResource(id = R.string.lorem),
+            maxLines = 3,
+            fontSize = 14.sp,
+        )
+    }
+    
 }
 
 
