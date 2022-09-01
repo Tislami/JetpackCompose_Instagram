@@ -8,69 +8,67 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthEvent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.common.*
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.AuthScreens
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppPrimaryButton
 
 @Composable
 fun LoginScreen(
-    signUpTextOnClick: () -> Unit,
-    navigateToHome: () -> Unit,
+    navHostController: NavHostController,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
-    Content(
-        signUpTextOnClick = signUpTextOnClick,
-        navigateToHome = navigateToHome,
-        authViewModel = authViewModel
-    )
-
+    Content(navHostController, authViewModel)
 }
 
 @Composable
 private fun Content(
-    signUpTextOnClick: () -> Unit,
-    navigateToHome: () -> Unit,
+    navHostController: NavHostController,
     authViewModel: AuthViewModel
 ) {
+
+    val navController by remember { mutableStateOf(navHostController) }
+    val viewModel by remember { mutableStateOf(authViewModel) }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-
         AppTextLogo()
 
         Spacer(modifier = Modifier.height(16.dp))
 
         AuthTextField(
-            authState = authViewModel.authState,
-            emailTextValueChange = { authViewModel.onEvent(AuthEvent.SetEmail(it)) },
-            passwordTextValueChange = { authViewModel.onEvent(AuthEvent.SetPassword(it)) }
+            authState = viewModel.authState,
+            emailTextValueChange = { viewModel.onEvent(AuthEvent.SetEmail(it)) },
+            passwordTextValueChange = { viewModel.onEvent(AuthEvent.SetPassword(it)) }
         )
 
-        ForgotPassword(onClick = { authViewModel.onEvent(AuthEvent.FB) })
+        ForgotPassword(onClick = { viewModel.onEvent(AuthEvent.FB) })
 
         Spacer(modifier = Modifier.height(8.dp))
 
         AppPrimaryButton(
             text = stringResource(id = R.string.log_in),
-            onClick = { navigateToHome() },
+            onClick = {navController.navigate("home") },
             enabled = true,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(40.dp)
         )
 
-        WithFB(onClick = { authViewModel.onEvent(AuthEvent.FB) })
+        WithFB(onClick = { viewModel.onEvent(AuthEvent.FB) })
 
         Or()
 
         HaveAccount(
-            onClick = { signUpTextOnClick() },
+            onClick = { navController.navigate(AuthScreens.Registration.route) },
             text = stringResource(id = R.string.dont_have_an_account),
             buttonText = stringResource(id = R.string.sing_up),
         )

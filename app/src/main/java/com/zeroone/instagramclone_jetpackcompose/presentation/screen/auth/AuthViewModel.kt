@@ -24,9 +24,7 @@ class AuthViewModel @Inject constructor() : ViewModel() {
             }
             AuthEvent.FB -> {
                 _authState.value = authState.value.copy(email = "jkndjkfa")
-
             }
         }
     }
-
 }

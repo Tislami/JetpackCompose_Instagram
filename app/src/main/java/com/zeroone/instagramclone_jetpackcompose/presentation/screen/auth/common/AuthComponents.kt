@@ -18,59 +18,48 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.A
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppText
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
 
-val TAG = "COMMONS"
 @Composable
 fun AppTextLogo() {
-
     AppLogoImage(
         painter = if (isSystemInDarkTheme()) painterResource(id = R.drawable.app_text_dark)
         else painterResource(id = R.drawable.app_text_light)
     )
 }
+
 @Composable
 fun AuthTextField(
     authState: MutableState<AuthState>,
     emailTextValueChange: (String) -> Unit,
     passwordTextValueChange: (String) -> Unit,
 ) {
-
     var isPasswordVisible by remember { mutableStateOf(false) }
-
 
     AppTextField(
         text = authState.value.email,
-        onValueChange = {emailTextValueChange(it)},
-        hint = stringResource(id = R.string.e_mail),
+        onValueChange = emailTextValueChange,
+        hint = R.string.e_mail,
         trailingOnClick = { emailTextValueChange("") },
-        trailingIcon = painterResource(id = R.drawable.ic_clear_24),
+        trailingIcon = R.drawable.ic_clear_24,
         modifier = Modifier.fillMaxWidth()
     )
 
     AppTextField(
         text = authState.value.password,
-        onValueChange = {passwordTextValueChange(it)},
-        hint = stringResource(id = R.string.password),
+        onValueChange = passwordTextValueChange,
+        hint = R.string.password,
         trailingOnClick = { isPasswordVisible = !isPasswordVisible },
-        trailingIcon = if (isPasswordVisible)
-            painterResource(id = R.drawable.ic_visibility_24)
-        else painterResource(id = R.drawable.ic_visibility_off_24),
+        trailingIcon = if (isPasswordVisible) R.drawable.ic_visibility_24
+        else R.drawable.ic_visibility_off_24,
         isPasswordVisible = isPasswordVisible,
         modifier = Modifier.fillMaxWidth()
     )
-
 }
 
 @Composable
-fun HaveAccount(text: String, buttonText: String,onClick: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+fun HaveAccount(text: String, buttonText: String, onClick: () -> Unit) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
         AppText(text = text)
-
-        AppTextButton(
-            text = buttonText,
-            onClick = onClick
-        )
+        AppTextButton(text = buttonText, onClick = onClick)
     }
 }
 
@@ -86,9 +75,7 @@ fun Or() {
                 .weight(1f)
                 .padding(end = 16.dp)
         )
-
         AppText(text = stringResource(id = R.string.or))
-
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
@@ -99,12 +86,10 @@ fun Or() {
 }
 
 @Composable
-fun WithFB(onClick: ()-> Unit) {
-
+fun WithFB(onClick: () -> Unit) {
     AppTextButton(
         text = stringResource(id = R.string.log_in_with_facebook),
-        onClick=onClick,
+        onClick = onClick,
         modifier = Modifier.padding(vertical = 16.dp),
-
     )
 }

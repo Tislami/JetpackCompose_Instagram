@@ -1,54 +1,53 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation
 
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryPostScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryUserScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.AddViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.home.HomeScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.profile.EditProfileScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.profile.ProfileScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.TAG
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainNavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
+
+    val addViewModel: AddViewModel = hiltViewModel()
+
     AnimatedNavHost(
         navController = navController,
-        route = Graph.Main,
-        startDestination = "discovery",
+        startDestination = Graph.HOME,
         modifier = modifier,
-        enterTransition = { fadeIn(animationSpec = tween(0)) },
-        exitTransition = { fadeOut(animationSpec = tween(0)) },
-        popEnterTransition = { fadeIn(animationSpec = tween(0)) },
-        popExitTransition = { fadeOut(animationSpec = tween(0)) },
+        enterTransition = { fadeIn() },
+        exitTransition = { fadeOut() },
+        popEnterTransition = { fadeIn() },
+        popExitTransition = { fadeOut() },
     ) {
-        authNavGraph(
-            signInTextOnClick={navController.navigate(AuthScreen.Login.route)},
-            signUpTextOnClick={navController.navigate(AuthScreen.Registration.route)},
-            navigateToHome = { navController.navigate(route="home") }
-        )
-        composable(route="home"){
-            HomeScreen()
-        }
-        composable(route="profile"){
-            EditProfileScreen()
-        }
-        composable(route="discovery"){
-            DiscoveryPostScreen()
-        }
+        authNavGraph(navController)
+        composable(route=Graph.HOME){ HomeScreen(navController) }
+        profileNavGraph( navController)
+        addNavGraph( navController, addViewModel )
+        composable(route = Graph.DISCOVERY) { DiscoveryScreen(navController) }
     }
 }
 
 object Graph {
-    const val Main = "main"
-    const val AUTHENTICATION = "auth"
-    const val HOME = "home"
-    const val DETAILS = "details"
+    const val AUTHENTICATION = "AUTH"
+    const val HOME = "HOME"
+    const val PROFILE = "PROFILE"
+    const val DISCOVERY = "DISCOVERY"
+    const val ADD = "ADD"
 }

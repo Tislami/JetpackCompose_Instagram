@@ -8,8 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavDestination
-import androidx.navigation.NavHostController
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.AuthScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.AuthScreens
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
 
 @Composable
@@ -18,7 +17,7 @@ fun AuthTopBar(
     when (currentDestination?.parent?.route) {
         Graph.AUTHENTICATION -> {
             when(currentDestination.route){
-                AuthScreen.Login.route -> { LoginTopBar()}
+                AuthScreens.Login.route -> { LoginTopBar()}
                 else -> {}
             }
         }
