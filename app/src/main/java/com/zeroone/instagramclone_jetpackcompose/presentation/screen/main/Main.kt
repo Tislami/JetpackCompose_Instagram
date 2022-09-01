@@ -20,7 +20,6 @@ fun Main(navHostController: NavHostController) {
     )
 
     Scaffold(
-        topBar = { DiscoveryTopBar() },
         content = {
             MainNavGraph(
                 modifier = Modifier.padding(it),

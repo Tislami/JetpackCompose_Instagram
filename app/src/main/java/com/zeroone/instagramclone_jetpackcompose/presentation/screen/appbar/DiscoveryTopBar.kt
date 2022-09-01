@@ -1,7 +1,16 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
 
+import android.widget.NumberPicker
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -9,14 +18,30 @@ import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppSearchTextField
 
 @Composable
-fun DiscoveryTopBar() {
+fun DiscoveryTopBar(
+    query:String,
+    onValueChange: (String) -> Unit,
+    onFocusChange: (FocusState) -> Unit,
+) {
     TopAppBar(
         elevation = 0.dp,
-        backgroundColor = Color.Transparent) {
-        AppSearchTextField(
-            value = "",
-            onValueChange = {},
-            labelText = stringResource(id = R.string.search)
-        )
+        backgroundColor = Color.Transparent
+    ) {
+        Row {
+            if (query.isNotEmpty())
+            IconButton(onClick = { onValueChange("") }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back)
+                )
+            }
+            AppSearchTextField(
+                value = query,
+                onValueChange = onValueChange,
+                labelText = stringResource(id = R.string.search),
+                onFocusChange = onFocusChange
+            )
+        }
+
     }
 }
