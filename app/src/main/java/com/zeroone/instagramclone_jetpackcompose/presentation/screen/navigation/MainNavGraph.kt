@@ -1,22 +1,17 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation
 
-import android.util.Log
 import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.AddViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.home.HomeScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.TAG
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -26,6 +21,8 @@ fun MainNavGraph(
 ) {
 
     val addViewModel: AddViewModel = hiltViewModel()
+    val editProfileViewModel: EditProfileViewModel = hiltViewModel()
+    val userViewModel: UserViewModel = hiltViewModel()
 
     AnimatedNavHost(
         navController = navController,
@@ -38,7 +35,7 @@ fun MainNavGraph(
     ) {
         authNavGraph(navController)
         composable(route=Graph.HOME){ HomeScreen(navController) }
-        profileNavGraph( navController)
+        profileNavGraph( navController,editProfileViewModel,userViewModel)
         addNavGraph( navController, addViewModel )
         composable(route = Graph.DISCOVERY) { DiscoveryScreen(navController) }
     }

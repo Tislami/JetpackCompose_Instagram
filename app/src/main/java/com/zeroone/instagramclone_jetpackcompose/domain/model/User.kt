@@ -11,7 +11,7 @@ data class User(
     val displayName: String ="",
     val bio: String = "",
     val photoUrl: Int? = null,
-    val posts: List<String> = emptyList(),
+    val posts: List<Post> = emptyList(),
     val followers: List<String> = emptyList(),
     val following: List<String> = emptyList(),
 )
@@ -22,5 +22,5 @@ val defaultUser = User(
     name = "Name",
     lastname = "Lastname",
     displayName = "Display name",
-    photoUrl = R.drawable.default_person_image
+    photoUrl = R.drawable.default_person_image,
 )

@@ -24,25 +24,10 @@ fun CollapsedPostCard(painterResourceId: Int, onClick: () -> Unit = {}) {
             .clickable { onClick() },
         shape = RectangleShape,
         elevation = 0.dp,
-    ) { Image(painter = painterResource(id = painterResourceId), contentDescription = null) }
-}
-
-
-@Composable
-fun CollapsedPostCard(data: Any, onClick: () -> Unit = {}) {
-    Surface(
-        modifier = Modifier
-            .size(125.dp)
-            .clickable { onClick() },
-        shape = RectangleShape,
-        elevation = 0.dp,
     ) {
-
-        AsyncImage(
-            model = data,
-            contentDescription = null,
-            contentScale = ContentScale.Crop
+        Image(
+            painter = painterResource(id = painterResourceId),
+            contentDescription = null
         )
-
     }
 }

@@ -59,6 +59,7 @@
     <string name="description"> Description </string>
     <string name="photo"> Photo </string>
     <string name="send"> Send </string>
+    <string name="clear"> Clear </string>
     <string name="share"> Share </string>
     <string name="gallery"> Gallery </string>
     <string name="new_post"> New Post </string>
@@ -79,7 +80,7 @@
     <string name="nav_item"> BottomBar Navigation item</string>
 
 
-    <string name="lorem"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet consequatur minus, necessitatibus nihil non nostrum officiis pariatur perspiciatis qui quia repellat repudiandae sunt vel velit? Accusamus, cupiditate nulla? Expedita. </string>
+    <string name="lorem"> Lorem ipsum dolor sit amet, consecrated adipisicing elit. Accusamus amet consequatur minus, necessitatibus nihil non nostrum officiis pariatur perspiciatis qui quia repellat repudiandae sunt vel velit? Accusamus, cupiditate nulla? Expedita. </string>
 
 
 </resources>

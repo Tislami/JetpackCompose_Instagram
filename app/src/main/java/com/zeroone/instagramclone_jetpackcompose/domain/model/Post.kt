@@ -17,5 +17,4 @@ val defaultPost = Post(
     photoUrl = R.drawable.default_post_image,
     owner = defaultUser,
     like = 5,
-
     )

@@ -22,13 +22,14 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.A
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
 
 @Composable
-fun EditProfileTopBar(navHostController: NavHostController) {
-
-    val navController by remember { mutableStateOf(navHostController) }
+fun EditProfileTopBar(
+    onClickCancel:()->Unit,
+    onClickDone:()->Unit,
+) {
 
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = onClickCancel ) {
                 Icon(imageVector = Icons.Default.Clear, contentDescription = null)
             }
         },
@@ -41,7 +42,7 @@ fun EditProfileTopBar(navHostController: NavHostController) {
         },
 
         actions = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick =  onClickDone) {
                 Icon(
                     imageVector = Icons.Default.Done,
                     contentDescription = null,

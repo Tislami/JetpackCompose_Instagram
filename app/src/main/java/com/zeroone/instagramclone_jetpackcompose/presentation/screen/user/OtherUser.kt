@@ -1,8 +1,9 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.profile
+package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zeroone.instagramclone_jetpackcompose.R
+import com.zeroone.instagramclone_jetpackcompose.domain.model.Post
 import com.zeroone.instagramclone_jetpackcompose.domain.model.User
 import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultUser
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.ProfileTopBar
@@ -29,7 +31,7 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.*
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.CollapsedPostCard
 
 @Composable
-fun ProfileScreen(
+fun OtherUserScreen(
     navHostController: NavHostController,
     userViewModel: UserViewModel,
 ) {
@@ -55,14 +57,8 @@ private fun Content(
     navHostController: NavHostController,
 ) {
     Column {
-        Head(user = user, navHostController = navHostController
-        )
-        Body(
-            user = user,
-            navigateToNewPost = {
-                navHostController.navigate(ProfileScreens.EditProfile.route)
-            }
-        )
+        Head(user = user, navHostController = navHostController)
+        Body(posts = user.posts)
     }
 }
 
@@ -96,13 +92,28 @@ private fun Head(
         }
     }
 
-    AppButton(
-        text = stringResource(id = R.string.edit_profile),
-        onClick = { navController.navigate(ProfileScreens.EditProfile.route) },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 16.dp)
-    )
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 16.dp)) {
+        AppPrimaryButton(
+            text = stringResource(id = R.string.follow),
+            onClick = { navController.navigate(ProfileScreens.EditProfile.route) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 8.dp)
+        )
+
+        AppButton(
+            text = stringResource(id = R.string.message),
+            onClick = { navController.navigate(ProfileScreens.EditProfile.route) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 8.dp)
+        )
+    }
+
 
     Divider(
         modifier = Modifier
@@ -112,32 +123,11 @@ private fun Head(
 }
 
 @Composable
-private fun Body(
-    user: User,
-    navigateToNewPost: () -> Unit
-) {
-
-    if (user.posts.isNotEmpty())
-        LazyVerticalGrid(columns = GridCells.Adaptive(125.dp)) {
-            items(50) {
-                CollapsedPostCard(painterResourceId = R.drawable.default_post_image)
-            }
+private fun Body(posts: List<Post>) {
+    LazyVerticalGrid(columns = GridCells.Adaptive(125.dp)) {
+        items(posts) { post ->
+            CollapsedPostCard(painterResourceId = post.photoUrl!!)
         }
-    else Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        AppText(
-            text = stringResource(id = R.string.profile_desc),
-            color = MaterialTheme.colors.onBackground.copy(alpha = .5f),
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(32.dp))
-        AppTextButton(
-            text = stringResource(id = R.string.share_your_first_post),
-            onClick = navigateToNewPost
-        )
     }
 }
 

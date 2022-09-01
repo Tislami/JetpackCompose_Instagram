@@ -11,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 import java.io.InputStream
 
 interface AuthRepository {
-
+    
 }
 
 class AuthRepositoryImpl() : AuthRepository {

@@ -1,4 +1,5 @@
 package com.zeroone.instagramclone_jetpackcompose.domain.model
 
-class Followers {
-}
+data class Followers(
+    val a:String=""
+)
