@@ -7,12 +7,29 @@ import androidx.compose.foundation.magnifier
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberImagePainter
 
 @Composable
-fun CollapsedPostCard(painterResourceId: Int, onClick: () -> Unit={}) {
+fun CollapsedPostCard(painterResourceId: Int, onClick: () -> Unit = {}) {
+    Surface(
+        modifier = Modifier
+            .size(125.dp)
+            .clickable { onClick() },
+        shape = RectangleShape,
+        elevation = 0.dp,
+    ) { Image(painter = painterResource(id = painterResourceId), contentDescription = null) }
+}
+
+
+@Composable
+fun CollapsedPostCard(data: Any, onClick: () -> Unit = {}) {
     Surface(
         modifier = Modifier
             .size(125.dp)
@@ -20,7 +37,12 @@ fun CollapsedPostCard(painterResourceId: Int, onClick: () -> Unit={}) {
         shape = RectangleShape,
         elevation = 0.dp,
     ) {
-        Image(painter = painterResource(id = painterResourceId), contentDescription = null)
+
+        AsyncImage(
+            model = data,
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
 
     }
 }

@@ -46,20 +46,19 @@ fun AppButton(
     modifier: Modifier = Modifier
 ) {
     Button(
-        onClick = onClick,
+        onClick = { onClick() },
         enabled = enabled,
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.background,
-            disabledBackgroundColor = MaterialTheme.colors.primary.copy(.5f),
+            disabledBackgroundColor = MaterialTheme.colors.surface,
         ),
         border = BorderStroke(1.dp,MaterialTheme.colors.secondaryVariant),
     ) {
         Text(
             text = text,
-            color = if (enabled) MaterialTheme.colors.onPrimary
-            else MaterialTheme.colors.onPrimary.copy(.5f),
+            color =MaterialTheme.colors.onSurface,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp
         )

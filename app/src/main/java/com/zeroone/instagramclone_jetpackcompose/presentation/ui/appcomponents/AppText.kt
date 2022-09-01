@@ -1,5 +1,6 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -35,7 +36,8 @@ fun AppText(text: String,
             softWrap: Boolean = true,
             maxLines: Int = Int.MAX_VALUE,
             onTextLayout: (TextLayoutResult) -> Unit = {},
-            style: TextStyle = LocalTextStyle.current) {
+            style: TextStyle = LocalTextStyle.current,
+) {
     Text(
         text = text,
         color=color,

@@ -24,7 +24,6 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.A
 
 @Composable
 fun PostCard(post: Post) {
-
     Card(
         elevation = 1.dp,
         shape = RectangleShape,

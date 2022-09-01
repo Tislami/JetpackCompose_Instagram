@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -36,13 +37,13 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.theme.Instagram
 fun AppTextField(
     text: String,
     onValueChange: (String) -> Unit,
-    hint: String,
-    placeHolder: String? = null,
-    trailingIcon: Painter? = null,
+    hint: Int? = null,
+    placeHolder: Int? = null,
+    trailingIcon: Int? = null,
     trailingOnClick: () -> Unit = { },
     isPasswordVisible: Boolean = false,
     enabled: Boolean = true,
-    modifier: Modifier= Modifier
+    modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
     var isFocused by remember { mutableStateOf(false) }
@@ -52,32 +53,33 @@ fun AppTextField(
         onValueChange = { onValueChange(it) },
         enabled = enabled,
         label = {
-            Text(
-                text = hint,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colors.onSurface,
-            )
+            if (hint != null)
+                Text(
+                    text = stringResource(id = hint),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onSurface,
+                )
         },
         textStyle = TextStyle(fontSize = 14.sp),
-        visualTransformation = if (isPasswordVisible)
-            PasswordVisualTransformation()
-        else VisualTransformation.None,
+        visualTransformation = if (isPasswordVisible) PasswordVisualTransformation()
+         else VisualTransformation.None ,
         trailingIcon = {
-            if (trailingIcon != null && isFocused)
+            if (trailingIcon != null && isFocused) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (placeHolder != null) {
                         Text(
-                            text = placeHolder,
+                            text = stringResource(id = placeHolder),
                             color = MaterialTheme.colors.onBackground
                         )
                     }
                     IconButton(onClick = trailingOnClick) {
                         Icon(
-                            painter = trailingIcon,
+                            painter = painterResource(id = trailingIcon),
                             contentDescription = null
                         )
                     }
                 }
+            }
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         keyboardActions = KeyboardActions(
@@ -91,22 +93,5 @@ fun AppTextField(
             focusedIndicatorColor = MaterialTheme.colors.onSurface.copy(.25f),
             unfocusedIndicatorColor = MaterialTheme.colors.onSurface.copy(.25f),
         )
-
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewLightInstagramTextField() {
-    InstagramClone_JetpackComposeTheme{
-        AppTextField(text = "", {},"Email")
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewDarkInstagramTextField() {
-    InstagramClone_JetpackComposeTheme(darkTheme = true){
-        AppTextField(text = "", {},"Email")
-    }
 }

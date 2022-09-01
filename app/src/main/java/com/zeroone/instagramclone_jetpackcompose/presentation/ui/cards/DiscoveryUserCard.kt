@@ -21,7 +21,6 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.A
 @Composable
 fun DiscoveryUserCard(user: User, onClick: () -> Unit) {
     Card(
-
         elevation = 0.dp,
         backgroundColor = MaterialTheme.colors.surface,
         modifier = Modifier
@@ -29,7 +28,7 @@ fun DiscoveryUserCard(user: User, onClick: () -> Unit) {
             .clickable { onClick() },
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            AppProfileImage(painterResourceId = user.photoUrl!!, size = 50.dp)
+            AppProfileImage(painterResourceId = user.photoUrl!!, size = 75.dp)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
