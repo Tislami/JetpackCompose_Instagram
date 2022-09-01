@@ -30,6 +30,7 @@
     //Home
     <string name="home"> Home </string>
     <string name="search"> Search </string>
+    <string name="back"> Back </string>
     <string name="add"> Add </string>
     <string name="favorite"> Favorite </string>
     <string name="profile"> Profile </string>
@@ -59,9 +60,23 @@
     <string name="photo"> Photo </string>
     <string name="send"> Send </string>
     <string name="share"> Share </string>
+    <string name="gallery"> Gallery </string>
+    <string name="new_post"> New Post </string>
     <string name="title_error"> Title can not be empty.</string>
     <string name="description_error"> Description can not be empty.</string>
     <string name="photo_error"> Photo can not be empty.</string>
+    <string name="write_a_caption"> Write a caption…</string>
+    <string name="tag_people"> Tag people</string>
+    <string name="add_location"> Add location</string>
+    <string name="add_music"> Add music</string>
+    <string name="also_post_to"> Also post to</string>
+    <string name="twitter"> Twitter </string>
+    <string name="Tumblr"> Tumblr </string>
+    <string name="advanced_advanced_setting"> Advanced Setting </string>
+
+
+
+    <string name="nav_item"> BottomBar Navigation item</string>
 
 
     <string name="lorem"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet consequatur minus, necessitatibus nihil non nostrum officiis pariatur perspiciatis qui quia repellat repudiandae sunt vel velit? Accusamus, cupiditate nulla? Expedita. </string>
