@@ -8,41 +8,49 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.AddViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.content.CreateUserContent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.home.HomeScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.notification.NotificationScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.profile.FollowersScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainNavGraph(
+    appState: AppState,
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
-
     val addViewModel: AddViewModel = hiltViewModel()
     val editProfileViewModel: EditProfileViewModel = hiltViewModel()
     val userViewModel: UserViewModel = hiltViewModel()
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = Graph.HOME,
+        startDestination = Graph.AUTHENTICATION,
         modifier = modifier,
         enterTransition = { fadeIn() },
         exitTransition = { fadeOut() },
         popEnterTransition = { fadeIn() },
         popExitTransition = { fadeOut() },
     ) {
-        authNavGraph(navController)
-        composable(route=Graph.HOME){ HomeScreen(navController) }
+        authNavGraph(appState)
         profileNavGraph( navController,editProfileViewModel,userViewModel)
         addNavGraph( navController, addViewModel )
+
+        composable(route=Graph.HOME){ HomeScreen(appState) }
         composable(route = Graph.DISCOVERY) { DiscoveryScreen(navController) }
+        composable(route = Graph.NOTIFICATION) { NotificationScreen() }
     }
 }
 
 object Graph {
     const val AUTHENTICATION = "AUTH"
+    const val NOTIFICATION = "NOTIFICATION"
     const val HOME = "HOME"
     const val PROFILE = "PROFILE"
     const val DISCOVERY = "DISCOVERY"

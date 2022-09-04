@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.common
+package com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.content
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
@@ -40,7 +40,7 @@ fun AuthTextField(
         hint = R.string.e_mail,
         trailingOnClick = { emailTextValueChange("") },
         trailingIcon = R.drawable.ic_clear_24,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
     )
 
     AppTextField(

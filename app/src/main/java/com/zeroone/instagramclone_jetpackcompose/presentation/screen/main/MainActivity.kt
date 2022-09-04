@@ -41,8 +41,8 @@ val TAG = "Instagram_JetpackCompose"
 
 
 @AndroidEntryPoint
+@OptIn(ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,7 +53,16 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
-                    Main(navHostController = navHostController)
+                    val appState = AppState(
+                        navHostController = navHostController,
+                        scaffoldState = rememberScaffoldState(),
+                        coroutineScope = rememberCoroutineScope(),
+                        context = LocalContext.current
+                    )
+
+                    Main(
+                        appState=appState,
+                        navHostController = navHostController)
                     requestPermissions(LocalContext.current, this)
                 }
             }

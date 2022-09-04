@@ -4,5 +4,5 @@ import com.zeroone.instagramclone_jetpackcompose.domain.repository.AuthRepositor
 
 class GetAuthState(private val repository: AuthRepository)
 {
-
+    operator fun invoke() = repository.getAuthState()
 }

@@ -38,7 +38,6 @@ fun DiscoveryTopBar(
             AppSearchTextField(
                 value = query,
                 onValueChange = onValueChange,
-                labelText = stringResource(id = R.string.search),
             )
         }
 

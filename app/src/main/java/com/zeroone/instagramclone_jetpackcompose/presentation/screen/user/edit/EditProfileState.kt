@@ -5,5 +5,5 @@ data class EditProfileState(
     val lastname: String="",
     val displayName: String="",
     val bio: String="",
-    val photo: Int=0,
+    val photoUrl: String?= "",
 )

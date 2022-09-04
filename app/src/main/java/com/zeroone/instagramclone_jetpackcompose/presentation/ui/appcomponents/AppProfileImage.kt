@@ -14,11 +14,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.zeroone.instagramclone_jetpackcompose.R
 
 @Composable
 fun AppProfileImage(
-    painterResourceId: Int,
+    painterResourceId: Int?=null,
     contentDescription: String? = null,
     size: Dp =100.dp,
 ) {
@@ -30,6 +31,29 @@ fun AppProfileImage(
     ) {
         Image(
             modifier = Modifier.padding(4.dp),
-            painter = painterResource(id = painterResourceId) , contentDescription = contentDescription)
+            painter =
+            if (painterResourceId!=null){ painterResource(id = painterResourceId)
+            }else{ painterResource(id = R.drawable.default_person_image) },
+            contentDescription = contentDescription)
+    }
+}
+
+@Composable
+fun AppProfileImage(
+    photoUrl: String?=null,
+    contentDescription: String? = null,
+    size: Dp =100.dp,
+) {
+    Surface(
+        shape = CircleShape,
+        border = BorderStroke(1.dp, color = Color.DarkGray),
+        color = MaterialTheme.colors.background,
+        modifier = Modifier.size(size)
+    ) {
+        AsyncImage(
+            modifier = Modifier.padding(4.dp),
+            model =
+            photoUrl ?: painterResource(id = R.drawable.default_person_image),
+            contentDescription = contentDescription)
     }
 }

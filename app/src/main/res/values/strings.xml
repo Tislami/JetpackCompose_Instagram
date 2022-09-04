@@ -45,6 +45,7 @@
     <string name="profile_desc"> When you share photos and videos they\'ll appear on your profile</string>
     <string name="share_your_first_post"> Share your first post</string>
     <string name="follow"> Follow </string>
+    <string name="all_followers"> All followers </string>
     <string name="unfollow"> Unfollow </string>
     <string name="contact"> Contact </string>
     <string name="cancel"> Cancel </string>
@@ -53,6 +54,8 @@
     <string name="private_information"> Private Information </string>
     <string name="phone"> Phone </string>
     <string name="gender"> Gender </string>
+    <string name="remove"> Remove </string>
+    <string name="unknown_error"> Unknown Error </string>
 
     //Post
     <string name="title"> Title </string>

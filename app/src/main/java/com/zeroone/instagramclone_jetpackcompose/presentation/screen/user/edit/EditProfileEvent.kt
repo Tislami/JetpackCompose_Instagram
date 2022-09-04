@@ -5,7 +5,7 @@ sealed class EditProfileEvent{
     data class SetLastname(val data: String) : EditProfileEvent()
     data class SetDisplayName(val data: String) : EditProfileEvent()
     data class SetBio(val data: String) : EditProfileEvent()
-    data class SetPhoto(val data: Int) : EditProfileEvent()
+    data class SetPhoto(val data: String?) : EditProfileEvent()
     object Done : EditProfileEvent()
     object Cancel : EditProfileEvent()
 }

@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.DrawModifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.*
 import androidx.compose.ui.graphics.Color
@@ -32,8 +33,8 @@ import com.zeroone.instagramclone_jetpackcompose.R
 fun AppSearchTextField(
     value: String,
     onValueChange : (String)-> Unit,
-    labelText: String,
     textStyle: TextStyle = TextStyle(),
+    modifier: Modifier=Modifier,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -49,6 +50,7 @@ fun AppSearchTextField(
         keyboardActions = KeyboardActions(
             onSearch = { focusManager.clearFocus(true) }
         ),
+        modifier = modifier,
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier
@@ -76,7 +78,8 @@ fun AppSearchTextField(
                         )
 
                     Spacer(modifier = Modifier.width(4.dp))
-                    if (value.isEmpty()) Text(text = labelText, style = textStyle)
+                    if (value.isEmpty()) Text(text = 
+                        stringResource(id = R.string.search), style = textStyle)
 
 
                     innerTextField()

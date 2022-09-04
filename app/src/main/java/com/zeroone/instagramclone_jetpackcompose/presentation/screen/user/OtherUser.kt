@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -24,9 +22,6 @@ import com.zeroone.instagramclone_jetpackcompose.domain.model.User
 import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultUser
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.ProfileTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.ProfileScreens
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.Indicator
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.*
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.CollapsedPostCard
 
@@ -44,7 +39,7 @@ fun OtherUserScreen(
         topBar = { ProfileTopBar() },
         content = {
             Content(
-                user = viewModel.profileState.value.user,
+                user = defaultUser,
                 navHostController = navHostController,
             )
         }
@@ -77,7 +72,7 @@ private fun Head(
             .padding(start = 8.dp, end = 32.dp)
     ) {
         Column(horizontalAlignment = Alignment.Start) {
-            AppProfileImage(painterResourceId = user.photoUrl!!, size = 90.dp)
+            AppProfileImage(painterResourceId = null, size = 90.dp)
             Spacer(modifier = Modifier.height(8.dp))
             AppText(text = user.displayName, fontSize = 12.sp)
         }

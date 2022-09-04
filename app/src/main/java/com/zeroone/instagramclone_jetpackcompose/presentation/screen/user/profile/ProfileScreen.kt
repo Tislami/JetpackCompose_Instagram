@@ -24,7 +24,6 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.Prof
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.ProfileScreens
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.Indicator
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.*
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.CollapsedPostCard
 
@@ -42,7 +41,7 @@ fun ProfileScreen(
         topBar = { ProfileTopBar() },
         content = {
             Content(
-                user = viewModel.profileState.value.user,
+                user = defaultUser,
                 navHostController = navHostController,
             )
         }
@@ -81,7 +80,7 @@ private fun Head(
             .padding(start = 8.dp, end = 32.dp)
     ) {
         Column(horizontalAlignment = Alignment.Start) {
-            AppProfileImage(painterResourceId = user.photoUrl!!, size = 90.dp)
+            AppProfileImage(painterResourceId = null, size = 90.dp)
             Spacer(modifier = Modifier.height(8.dp))
             AppText(text = user.displayName, fontSize = 12.sp)
         }

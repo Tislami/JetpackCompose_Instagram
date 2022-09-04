@@ -3,6 +3,7 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultUser
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,21 +14,15 @@ class EditProfileViewModel @Inject constructor() : ViewModel() {
     private val _editProfileState = mutableStateOf(EditProfileState())
     val editProfileState = _editProfileState
 
-    init {
-        _editProfileState.value = editProfileState.value.copy(
-            name = defaultUser.name,
-            lastname = defaultUser.lastname,
-            displayName = defaultUser.displayName,
-            photo = defaultUser.photoUrl!!,
-            bio = defaultUser.bio,
-        )
-    }
+    val isLoading = mutableStateOf(false)
+
 
     fun onEvent(event: EditProfileEvent) {
         when (event) {
             EditProfileEvent.Cancel -> {}
-            EditProfileEvent.Done -> {}
+            EditProfileEvent.Done -> {
 
+            }
             is EditProfileEvent.SetBio -> {
                 _editProfileState.value = editProfileState.value.copy(bio = event.data)
             }
@@ -41,7 +36,7 @@ class EditProfileViewModel @Inject constructor() : ViewModel() {
                 _editProfileState.value = editProfileState.value.copy(name = event.data)
             }
             is EditProfileEvent.SetPhoto -> {
-                _editProfileState.value = editProfileState.value.copy(photo = event.data)
+                _editProfileState.value = editProfileState.value.copy(photoUrl = event.data)
             }
         }
     }

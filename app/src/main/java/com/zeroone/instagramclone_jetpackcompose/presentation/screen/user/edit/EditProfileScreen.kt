@@ -58,7 +58,7 @@ private fun Content(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AppProfileImage(painterResourceId = user.photo, size = 120.dp)
+        AppProfileImage(painterResourceId = null, size = 120.dp)
         AppTextButton(text = stringResource(id = R.string.change_profile_photo))
 
         Divider(modifier = Modifier.padding(top = 8.dp, bottom = 32.dp))

@@ -36,6 +36,7 @@ fun AppBottomBar(
     val currentDestination = navBackStackEntry?.destination
 
     if (currentDestination?.route == Graph.HOME ||
+        currentDestination?.route == Graph.NOTIFICATION ||
         currentDestination?.route == Graph.DISCOVERY ||
         currentDestination?.route == ProfileScreens.Profile.route
             ) {
@@ -94,9 +95,9 @@ sealed class BottomBarScreen(
         icon = Icons.Rounded.Add
     )
 
-    object Favorite : BottomBarScreen(
-        route = "Graph",
-        title = "Favorite",
+    object Notification : BottomBarScreen(
+        route = Graph.NOTIFICATION,
+        title = "Notification",
         icon = Icons.Default.Favorite
     )
 

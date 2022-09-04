@@ -34,7 +34,6 @@ fun PostCard(post: Post) {
             Bottom()
         }
     }
-
 }
 
 @Composable
@@ -102,7 +101,7 @@ private fun Head(post: Post) {
     ) {
 
         AppProfileImage(
-            painterResourceId = post.owner.photoUrl!!, size = 56.dp
+            painterResourceId = null, size = 56.dp
         )
 
         Column(

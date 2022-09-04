@@ -1,7 +1,15 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user
 
-import com.zeroone.instagramclone_jetpackcompose.domain.model.User
+sealed class UserEvent {
 
-sealed class UserEvent{
-    data class SetUser(val data: User) : UserEvent()
+    data class CreateUser(val id: String,val email:String) : UserEvent()
+    data class SetUser(
+        val name: String,
+        val lastname: String,
+        val displayName: String,
+        val bio: String,
+        val photoUrl: String?=null,
+    ) : UserEvent()
+
+    data class GetUser(val data: String) : UserEvent()
 }

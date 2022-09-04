@@ -12,8 +12,6 @@ import com.google.accompanist.navigation.animation.navigation
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.AddScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.AddViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.NewPostScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.login.LoginScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.registration.RegistrationScreen
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -22,7 +20,7 @@ fun NavGraphBuilder.addNavGraph(
     addViewModel: AddViewModel,
 ) {
     navigation(
-        route = Graph.AUTHENTICATION,
+        route = Graph.ADD,
         startDestination = AddScreens.Add.route,
     ) {
         composable(route = AddScreens.Add.route) {
