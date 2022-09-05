@@ -36,7 +36,7 @@ fun OtherUserScreen(
     }
 
     Scaffold(
-        topBar = { ProfileTopBar("alsdmf") },
+        //topBar = { ProfileTopBar("alsdmf") },
         content = {
             Content(
                 user = defaultUser,

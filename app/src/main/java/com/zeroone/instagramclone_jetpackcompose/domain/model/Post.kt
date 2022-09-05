@@ -2,10 +2,10 @@ package com.zeroone.instagramclone_jetpackcompose.domain.model
 
 
 data class Post(
-    val title: String,
+    val title: String="",
     val description: String= "",
     val photoUrl: String? = null,
-    val owner: String,
+    val owner: String="",
     val like: Int = 0,
 )
 

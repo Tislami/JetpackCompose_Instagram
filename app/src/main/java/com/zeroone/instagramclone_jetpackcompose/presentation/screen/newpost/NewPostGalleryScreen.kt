@@ -37,7 +37,6 @@ fun AddScreen(
     val context = LocalContext.current
     val navController by remember { mutableStateOf(appState.navHostController) }
     val imageFile = remember { mutableStateOf("") }
-
     LaunchedEffect(key1 = "New_Post") {
         newPostViewModel.eventFlow.collect { uiEvent ->
             when (uiEvent) {

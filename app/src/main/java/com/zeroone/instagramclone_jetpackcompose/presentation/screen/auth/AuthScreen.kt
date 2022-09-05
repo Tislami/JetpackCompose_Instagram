@@ -39,15 +39,10 @@ fun AuthScreen(
             when (uiEvent) {
                 is AuthViewModel.UIEvent.Login -> {
                     Log.d("AppAuth", "Auth_Screen: Auth login event")
-                    appState.showToast("Logged")
-                    appState.showSnackBar("Logged")
                     userViewModel.onEvent(UserEvent.GetUser(uiEvent.id))
                 }
                 is AuthViewModel.UIEvent.CreateUser -> {
                     Log.d("AppAuth", "Auth_Screen: Auth create user event")
-                    appState.showToast("Created")
-                    appState.showSnackBar("Created")
-                    userViewModel.onEvent(UserEvent.CreateUser(uiEvent.id, uiEvent.email))
                     appState.navHostController.navigate(AuthScreens.SetProfile.route)
                 }
                 is AuthViewModel.UIEvent.Error -> {
@@ -63,8 +58,6 @@ fun AuthScreen(
             when (uiEvent) {
                 is UserViewModel.UIEvent.Logged -> {
                     Log.d("AppAuth", "Auth_Screen: User logged event")
-                    appState.showToast("Got")
-                    appState.showSnackBar("Got")
                     appState.navHostController.navigate(Graph.HOME)
                 }
                 is UserViewModel.UIEvent.Error -> {
@@ -73,9 +66,6 @@ fun AuthScreen(
                 }
                 is UserViewModel.UIEvent.NotCompleted -> {
                     Log.d("AppAuth", "Auth_Screen: User not completed")
-                    appState.showToast("not completed")
-                    appState.showSnackBar("not completed")
-                    userViewModel.onEvent(UserEvent.CreateUser(uiEvent.id, authViewModel.authState.value.email))
                     appState.navHostController.navigate(AuthScreens.SetProfile.route)
                 }
             }

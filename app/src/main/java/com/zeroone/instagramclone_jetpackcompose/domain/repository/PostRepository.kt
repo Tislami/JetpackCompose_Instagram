@@ -20,6 +20,7 @@ import kotlin.reflect.jvm.internal.impl.util.AbstractArrayMapOwner
 interface PostRepository {
     fun setPost(post: Post) : Flow<Response<String>>
     fun setPostPhoto(inputStream: InputStream,owner: String) : Flow<Response<String>>
+    fun getUserPosts(id: String): Flow<Response<List<Post>>>
     fun getPosts() : Flow<Response<List<Post>>>
 }
 
@@ -86,6 +87,27 @@ class PostRepositoryImpl(
         } catch (e: Exception) {
             Log.d("PostApp", "post_repo_setPhoto: error ${e.message}")
             emit(Response.Error(e.message ?: "Error"))
+        }
+    }
+
+    override fun getUserPosts(id: String) = callbackFlow {
+        Log.d("PostApp", "post_repo_getUserPosts: init")
+        trySend(Response.Loading)
+        val snapshot = postCollection.whereEqualTo("owner", id)
+            .addSnapshotListener { value, error ->
+                val response = if (value != null) {
+                    val post = value.toObjects(Post::class.java)
+                    Log.d("PostApp", "post_repo_getUserPosts: success")
+                    Response.Success(post)
+                } else {
+                    Log.d("PostApp", "post_repo_getUserPosts: error ${error?.message}")
+                    Response.Error(error?.message ?: "")
+                }
+                Log.d("PostApp", "post_repo_getUserPosts: done")
+                trySend(response)
+            }
+        awaitClose {
+            snapshot.remove()
         }
     }
 

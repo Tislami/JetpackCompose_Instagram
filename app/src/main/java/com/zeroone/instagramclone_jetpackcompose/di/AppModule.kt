@@ -4,6 +4,7 @@ import com.zeroone.instagramclone_jetpackcompose.data.FirebaseDatabase
 import com.zeroone.instagramclone_jetpackcompose.domain.repository.*
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.UseCase
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.auth.*
+import com.zeroone.instagramclone_jetpackcompose.domain.use_case.post.GetUserPosts
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.post.PostUseCase
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.post.SetPost
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.post.SetPostPhoto
@@ -40,6 +41,7 @@ object AppModule {
     @Singleton
     fun provideUserRepository(firebaseDatabase: FirebaseDatabase): UserRepository {
         return UserRepositoryImpl(
+            auth = firebaseDatabase.auth,
             userCollection = firebaseDatabase.userCollection
         )
     }
@@ -83,10 +85,10 @@ object AppModule {
     @Singleton
     fun provideAuthUseCase(authRepository: AuthRepository): AuthUseCase {
         return AuthUseCase(
-            createUser = CreateUser(repository = authRepository),
-            login = Login(repository = authRepository),
-            singOut = SignOut(repository = authRepository),
-            getAuthState = GetAuthState(repository = authRepository),
+            createUser = CreateUser(authRepository),
+            login = Login(authRepository),
+            singOut = SignOut(authRepository),
+            getAuthState = GetAuthState(authRepository),
         )
     }
 
@@ -94,8 +96,8 @@ object AppModule {
     @Singleton
     fun provideUserUseCase(userRepository: UserRepository): UserUseCase {
         return UserUseCase(
-            getUser = GetUser(userRepository = userRepository),
-            setUser = SetUser(userRepository = userRepository),
+            getUser = GetUser(userRepository),
+            setUser = SetUser(userRepository),
         )
     }
 
@@ -103,8 +105,9 @@ object AppModule {
     @Singleton
     fun providePosUseCase(postRepository: PostRepository): PostUseCase {
         return PostUseCase(
-            setPost = SetPost(postRepository = postRepository),
-            setPostPhoto = SetPostPhoto(postRepository = postRepository),
+            setPost = SetPost(postRepository),
+            setPostPhoto = SetPostPhoto(postRepository),
+            getUserPosts = GetUserPosts(postRepository)
         )
     }
 

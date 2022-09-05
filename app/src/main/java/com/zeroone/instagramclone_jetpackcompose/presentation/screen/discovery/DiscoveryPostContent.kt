@@ -17,7 +17,7 @@ fun DiscoveryPostContent() {
     ) {
         items(45) {
 
-            CollapsedPostCard(painterResourceId = R.drawable.default_post_image)
+            CollapsedPostCard("")
         }
     }
 }

@@ -33,30 +33,11 @@ class UserViewModel @Inject constructor(
 
     val isLoading = mutableStateOf(false)
 
-    private fun createUser(id: String, email: String) {
-        _userState.value = userState.value.copy(user = User(id = id, email = email))
-    }
 
-
-    private fun setUser(
-        name: String,
-        lastname: String,
-        displayName: String,
-        bio: String,
-        photoUrl: String?,
-    ) {
-        val user = User(
-            id = userState.value.user.id,
-            email = userState.value.user.email,
-            name = name,
-            lastname = lastname,
-            displayName = displayName,
-            bio = bio,
-            photoUrl = photoUrl,
-        )
-
+    private fun setUser(name: String, lastname: String, displayName: String, bio: String, photoUrl: String?, )
+    {
+        val user = User(name = name, lastname = lastname, displayName = displayName, bio = bio, photoUrl = photoUrl,)
         Log.d("AppAuth", "user_viewModel_set: set init")
-
         viewModelScope.launch {
             useCase.userUseCase.setUser(user).collect { response ->
                 when (response) {
@@ -99,7 +80,7 @@ class UserViewModel @Inject constructor(
                             _userState.value = userState.value.copy(user = response.data)
                             _eventFlow.emit(UIEvent.Logged)
                         } else {
-                            _eventFlow.emit(UIEvent.NotCompleted(id))
+                            _eventFlow.emit(UIEvent.NotCompleted)
                             Log.d("AppAuth", "user_viewModel_get: success result not completed")
                         }
                     }
@@ -126,6 +107,31 @@ class UserViewModel @Inject constructor(
          }
      }*/
 
+    private fun getUserPosts(id : String) {
+        Log.d("PostApp", "user_viewModel_getUserPosts: init")
+
+        viewModelScope.launch {
+            useCase.postUseCase.getUserPosts(id).collect { response ->
+                when(response){
+                    is Response.Error -> {
+                        Log.d("PostApp", "user_viewModel_getUserPosts: response error ${response.message}")
+                        isLoading.value=false
+                        _eventFlow.emit(UIEvent.Error(response.message))
+                    }
+                    is Response.Loading -> { isLoading.value=true }
+                    is Response.Success -> {
+                        Log.d("PostApp", "user_viewModel_getUserPosts: response success ${response.data[0].title}")
+                        isLoading.value=false
+                        _userState.value = userState.value.copy(
+                            posts = response.data
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+
     fun onEvent(event: UserEvent) {
         when (event) {
             is UserEvent.SetUser -> {
@@ -140,15 +146,15 @@ class UserViewModel @Inject constructor(
             is UserEvent.GetUser -> {
                 getUser(event.data)
             }
-            is UserEvent.CreateUser -> {
-                createUser(event.id,event.email)
+            is UserEvent.GetUserPosts -> {
+                getUserPosts(event.data)
             }
         }
     }
 
     sealed class UIEvent {
         data class Error(val message: String) : UIEvent()
-        data class NotCompleted(val id: String) : UIEvent()
+        object NotCompleted : UIEvent()
         object Logged : UIEvent()
         object SignOut : UIEvent()
 

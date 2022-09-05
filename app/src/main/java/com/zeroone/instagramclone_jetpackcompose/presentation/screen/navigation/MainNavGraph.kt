@@ -22,7 +22,6 @@ fun MainNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
-    val editProfileViewModel: EditProfileViewModel = hiltViewModel()
 
     AnimatedNavHost(
         navController = navController,
@@ -34,10 +33,10 @@ fun MainNavGraph(
         popExitTransition = { fadeOut() },
     ) {
         authNavGraph(appState)
-        profileNavGraph( navController,editProfileViewModel)
-        addNavGraph( appState )
+        profileNavGraph(appState)
+        addNavGraph(appState)
 
-        composable(route=Graph.HOME){ HomeScreen(appState) }
+        composable(route = Graph.HOME) { HomeScreen(appState) }
         composable(route = Graph.DISCOVERY) { DiscoveryScreen(navController) }
         composable(route = Graph.NOTIFICATION) { NotificationScreen() }
     }

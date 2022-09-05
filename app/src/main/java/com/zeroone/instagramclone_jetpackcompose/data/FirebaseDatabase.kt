@@ -20,7 +20,7 @@ class FirebaseDatabase {
     val userCollection: CollectionReference = firestore.collection("users")
     val postCollection: CollectionReference = firestore.collection("posts")
 
-    val userStorageRef: StorageReference = storageRef.child("Users")
+    val userStorageRef: StorageReference = storageRef.child("users_images")
     val postStorageRef: StorageReference = storageRef.child("post_images")
 
 

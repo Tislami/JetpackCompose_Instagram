@@ -2,7 +2,6 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user
 
 sealed class UserEvent {
 
-    data class CreateUser(val id: String,val email:String) : UserEvent()
     data class SetUser(
         val name: String,
         val lastname: String,
@@ -12,4 +11,5 @@ sealed class UserEvent {
     ) : UserEvent()
 
     data class GetUser(val data: String) : UserEvent()
+    data class GetUserPosts(val data: String) : UserEvent()
 }

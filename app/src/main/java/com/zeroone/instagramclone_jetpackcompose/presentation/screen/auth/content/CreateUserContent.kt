@@ -49,8 +49,6 @@ fun CreateUserContent(
             when(uiEvent){
                 is UserViewModel.UIEvent.Logged -> {
                     Log.d("AppAuth", "CreateUserContent: User logged event")
-                    appState.showToast("Completed")
-                    appState.showSnackBar("Completed")
                     appState.navHostController.navigate(Graph.HOME)
                 }
                 is UserViewModel.UIEvent.Error -> {

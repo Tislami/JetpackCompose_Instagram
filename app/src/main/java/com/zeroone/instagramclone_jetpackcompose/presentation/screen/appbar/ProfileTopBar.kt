@@ -26,7 +26,7 @@ fun ProfileTopBar(
         },
         actions = {
             IconButton(
-                onClick = { /*TODO*/ }) {
+                onClick = {  }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null
