@@ -22,13 +22,13 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppText
 
 @Composable
-fun NewPostTopBar(navHostController: NavHostController) {
-
-    val navController by remember { mutableStateOf(navHostController) }
-
+fun NewPostTopBar(
+    cancelOnClick: ()-> Unit,
+    doneOnClick:()->Unit
+) {
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = cancelOnClick) {
                 Icon(imageVector = Icons.Default.Clear, contentDescription = null)
             }
         },
@@ -41,7 +41,7 @@ fun NewPostTopBar(navHostController: NavHostController) {
         },
 
         actions = {
-            IconButton(onClick = { navController.navigate(Graph.HOME) }) {
+            IconButton(onClick = doneOnClick) {
                 Icon(
                     imageVector = Icons.Default.Done,
                     contentDescription = null,

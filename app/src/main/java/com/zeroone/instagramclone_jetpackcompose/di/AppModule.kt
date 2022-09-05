@@ -1,16 +1,17 @@
 package com.zeroone.instagramclone_jetpackcompose.di
 
 import com.zeroone.instagramclone_jetpackcompose.data.FirebaseDatabase
-import com.zeroone.instagramclone_jetpackcompose.domain.repository.AuthRepository
-import com.zeroone.instagramclone_jetpackcompose.domain.repository.AuthRepositoryImpl
-import com.zeroone.instagramclone_jetpackcompose.domain.repository.UserRepository
-import com.zeroone.instagramclone_jetpackcompose.domain.repository.UserRepositoryImpl
+import com.zeroone.instagramclone_jetpackcompose.domain.repository.*
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.UseCase
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.auth.*
+import com.zeroone.instagramclone_jetpackcompose.domain.use_case.post.PostUseCase
+import com.zeroone.instagramclone_jetpackcompose.domain.use_case.post.SetPost
+import com.zeroone.instagramclone_jetpackcompose.domain.use_case.post.SetPostPhoto
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.GetUser
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.SetUser
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.UserUseCase
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.NewPostViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import dagger.Module
 import dagger.Provides
@@ -43,10 +44,22 @@ object AppModule {
         )
     }
 
+    @Provides
+    @Singleton
+    fun providePostRepository(firebaseDatabase: FirebaseDatabase): PostRepository {
+        return PostRepositoryImpl(
+            firebaseDatabase.auth,
+            firebaseDatabase.firestore,
+            firebaseDatabase.userCollection,
+            firebaseDatabase.postCollection,
+            firebaseDatabase.postStorageRef
+        )
+    }
+
 
     @Provides
     @Singleton
-    fun provideAuthViewModel(useCase: UseCase, userViewModel: UserViewModel): AuthViewModel {
+    fun provideAuthViewModel(useCase: UseCase): AuthViewModel {
         return AuthViewModel(useCase = useCase)
     }
 
@@ -54,6 +67,15 @@ object AppModule {
     @Singleton
     fun provideUserViewModel(useCase: UseCase): UserViewModel {
         return UserViewModel(useCase = useCase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewPostViewModel(useCase: UseCase, userViewModel: UserViewModel): NewPostViewModel {
+        return NewPostViewModel(
+            useCase = useCase,
+            userViewModel = userViewModel
+        )
     }
 
 
@@ -77,16 +99,27 @@ object AppModule {
         )
     }
 
+    @Provides
+    @Singleton
+    fun providePosUseCase(postRepository: PostRepository): PostUseCase {
+        return PostUseCase(
+            setPost = SetPost(postRepository = postRepository),
+            setPostPhoto = SetPostPhoto(postRepository = postRepository),
+        )
+    }
+
 
     @Provides
     @Singleton
     fun provideUseCase(
         authUseCase: AuthUseCase,
-        userUseCase: UserUseCase
+        userUseCase: UserUseCase,
+        postUseCase: PostUseCase
     ): UseCase {
         return UseCase(
             authUseCase = authUseCase,
-            userUseCase = userUseCase
+            userUseCase = userUseCase,
+            postUseCase = postUseCase
         )
     }
 }

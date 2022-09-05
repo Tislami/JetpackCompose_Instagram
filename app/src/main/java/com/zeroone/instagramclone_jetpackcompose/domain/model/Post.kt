@@ -1,12 +1,10 @@
 package com.zeroone.instagramclone_jetpackcompose.domain.model
 
-import com.zeroone.instagramclone_jetpackcompose.R
-
 
 data class Post(
-    val title: String= "",
+    val title: String,
     val description: String= "",
-    val photoUrl: Int? = null,
+    val photoUrl: String? = null,
     val owner: String,
     val like: Int = 0,
 )
@@ -14,7 +12,7 @@ data class Post(
 val defaultPost = Post(
     title = "Title1",
     description = "Description",
-    photoUrl = R.drawable.default_post_image,
+    photoUrl ="default_post_image,",
     owner = "defaultUser",
     like = 5,
     )

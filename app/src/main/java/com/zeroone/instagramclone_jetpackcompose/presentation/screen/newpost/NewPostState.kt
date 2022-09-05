@@ -1,7 +1,7 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost
 
 
-data class AddState(
+data class NewPostState(
     val caption: String = "",
-    val photo: String = "",
+    val photoUrl: String = "",
 )

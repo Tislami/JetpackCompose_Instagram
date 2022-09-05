@@ -12,7 +12,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 
 class FirebaseDatabase {
-    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val storageRef = storage.reference
 
@@ -21,7 +21,7 @@ class FirebaseDatabase {
     val postCollection: CollectionReference = firestore.collection("posts")
 
     val userStorageRef: StorageReference = storageRef.child("Users")
-    val postStorageRef: StorageReference = storageRef.child("Posts")
+    val postStorageRef: StorageReference = storageRef.child("post_images")
 
 
 }

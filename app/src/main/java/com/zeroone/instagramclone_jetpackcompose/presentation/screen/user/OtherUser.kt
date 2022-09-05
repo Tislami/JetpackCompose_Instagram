@@ -121,7 +121,7 @@ private fun Head(
 private fun Body(posts: List<Post>) {
     LazyVerticalGrid(columns = GridCells.Adaptive(125.dp)) {
         items(posts) { post ->
-            CollapsedPostCard(painterResourceId = post.photoUrl!!)
+            //CollapsedPostCard(painterResourceId = post.photoUrl!!)
         }
     }
 }

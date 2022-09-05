@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Post
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppProfileImage
@@ -43,8 +44,8 @@ private fun Body(post: Post) {
             .fillMaxWidth()
             .height(375.dp)
     ) {
-        Image(
-            painter = painterResource(id = post.photoUrl!!),
+        AsyncImage(
+            model =  post.photoUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop
         )

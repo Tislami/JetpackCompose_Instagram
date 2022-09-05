@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.AddViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.NewPostViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.home.HomeScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
@@ -22,9 +22,7 @@ fun MainNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
-    val addViewModel: AddViewModel = hiltViewModel()
     val editProfileViewModel: EditProfileViewModel = hiltViewModel()
-    val userViewModel: UserViewModel = hiltViewModel()
 
     AnimatedNavHost(
         navController = navController,
@@ -37,7 +35,7 @@ fun MainNavGraph(
     ) {
         authNavGraph(appState)
         profileNavGraph( navController,editProfileViewModel)
-        addNavGraph( navController, addViewModel )
+        addNavGraph( appState )
 
         composable(route=Graph.HOME){ HomeScreen(appState) }
         composable(route = Graph.DISCOVERY) { DiscoveryScreen(navController) }

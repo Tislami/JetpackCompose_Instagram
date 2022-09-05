@@ -1,5 +1,6 @@
-package com.zeroone.instagram.domain.repository
+package com.zeroone.instagramclone_jetpackcompose.domain.repository
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
@@ -14,11 +15,92 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import java.io.InputStream
 import java.util.*
+import kotlin.reflect.jvm.internal.impl.util.AbstractArrayMapOwner
 
 interface PostRepository {
-
+    fun setPost(post: Post) : Flow<Response<String>>
+    fun setPostPhoto(inputStream: InputStream,owner: String) : Flow<Response<String>>
+    fun getPosts() : Flow<Response<List<Post>>>
 }
 
-class PostRepositoryImpl() : PostRepository {
+class PostRepositoryImpl(
+    private val auth: FirebaseAuth,
+    private val firestore: FirebaseFirestore,
+    private val userCollection: CollectionReference,
+    private val postCollection: CollectionReference,
+    private val postStorageReference: StorageReference
+) : PostRepository {
 
+    override fun setPost(post: Post) = flow {
+        try {
+            Log.d("PostApp", "post_repo_setPost: init")
+            var result: Response<String> = Response.Loading
+            emit(result)
+            val id = postCollection.document().id
+
+            val userCollection = userCollection.document(auth.currentUser!!.uid)
+            val postCollection = postCollection.document(id)
+
+            firestore.runBatch {batch ->
+                batch.set(postCollection, post)
+                batch.update(postCollection, "owner",auth.currentUser!!.uid)
+                batch.update(userCollection,"posts",  FieldValue.arrayUnion(id))
+            }.addOnSuccessListener {
+                Log.d("PostApp", "post_repo_setPost: success $id")
+                result = Response.Success(id)
+            }.addOnFailureListener {
+                Log.d("PostApp", "post_repo_setPost: failure ${it.message}")
+                result = Response.Error(it.message ?: "Unknown error")
+            }.await()
+            emit(result)
+        } catch (e: Exception) {
+            Log.d("PostApp", "post_repo_setPost: success ${e.message}")
+            emit(Response.Error(e.message ?: "Unknown error"))
+        }
+    }
+
+    override fun setPostPhoto(
+        inputStream: InputStream,
+        owner: String
+    ) = flow {
+        try {
+            Log.d("PostApp", "post_repo_setPhoto: init")
+            var result: Response<String> = Response.Loading
+            emit(result)
+            val reference = postStorageReference
+                .child(owner)
+                .child(UUID.randomUUID().leastSignificantBits.toString())
+            val url = reference.putStream(inputStream).continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        Log.d("PostApp", "post_repo_setPhoto: task fail ${it.message}")
+                        result = Response.Error(it.message ?: "Error")
+                    }
+                }
+                Log.d("PostApp", "post_repo_setPhoto: success ${reference.downloadUrl}")
+                reference.downloadUrl
+            }.await()
+            Log.d("PostApp", "post_repo_setPhoto: done")
+            result = Response.Success(url.toString())
+            emit(result)
+        } catch (e: Exception) {
+            Log.d("PostApp", "post_repo_setPhoto: error ${e.message}")
+            emit(Response.Error(e.message ?: "Error"))
+        }
+    }
+
+    override fun getPosts() = callbackFlow {
+        val snapshot = postCollection.addSnapshotListener { value, error ->
+            val response = if (value != null) {
+                val posts = value.toObjects(Post::class.java)
+                Response.Success(posts)
+            } else {
+                Response.Error(error?.message ?: "")
+            }
+            trySend(response)
+        }
+        awaitClose {
+            snapshot.remove()
+        }
+    }
 }

@@ -21,9 +21,10 @@ fun HomeTopBar() {
         backgroundColor = MaterialTheme.colors.surface,
         navigationIcon = {
             IconButton(
+                modifier = Modifier.size(32.dp),
                 onClick = { /*TODO*/ }) {
                 Icon(
-                    imageVector = Icons.Default.Home,
+                    painterResource(id = R.drawable.ic_outlined_camera),
                     contentDescription = null
                 )
             }
@@ -37,6 +38,7 @@ fun HomeTopBar() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
+                    modifier = Modifier.size(100.dp),
                     painter = painterResource(id = R.drawable.app_text_dark),
                     contentDescription = null
                 )
@@ -44,16 +46,23 @@ fun HomeTopBar() {
         },
         actions = {
             IconButton(
+                modifier = Modifier.size(32.dp),
                 onClick = { /*TODO*/ }) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    painter = painterResource(id = R.drawable.ic_outlined_add),
                     contentDescription = null
                 )
             }
+            
+            Spacer(modifier = Modifier.width(16.dp))
+            
+            
+            
             IconButton(
+                modifier = Modifier.size(32.dp),
                 onClick = { /*TODO*/ }) {
                 Icon(
-                    imageVector = Icons.Default.PlayArrow,
+                    painter = painterResource(id = R.drawable.ic_dm),
                     contentDescription = null
                 )
             }

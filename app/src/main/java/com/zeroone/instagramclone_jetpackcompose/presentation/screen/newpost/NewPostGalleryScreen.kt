@@ -1,6 +1,8 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost
 
 import android.content.Context
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,33 +17,68 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.AddTopBar
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.AddScreens
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
+import kotlinx.coroutines.flow.collect
 import java.io.File
+import java.io.FileInputStream
 
 @Composable
 fun AddScreen(
-    navHostController: NavHostController,
-    addViewModel: AddViewModel
+    appState: AppState,
+    newPostViewModel: NewPostViewModel = hiltViewModel(),
 ) {
-
     val context = LocalContext.current
+    val navController by remember { mutableStateOf(appState.navHostController) }
+    val imageFile = remember { mutableStateOf("") }
+
+    LaunchedEffect(key1 = "New_Post") {
+        newPostViewModel.eventFlow.collect { uiEvent ->
+            when (uiEvent) {
+                is NewPostViewModel.UIEvent.Error -> {
+                    Log.d("PostApp", "AddScreen: error event ${uiEvent.message}")
+                    appState.showSnackBar(uiEvent.message)
+                }
+                NewPostViewModel.UIEvent.PhotoAdded -> {
+                    Log.d("PostApp", "AddScreen: success event ")
+                    navController.navigate(AddScreens.NewPost.route)
+                }
+            }
+        }
+    }
 
     Scaffold(
-        topBar = { AddTopBar(navHostController = navHostController, a = addViewModel.addState.value.photo)},
-        content = { GridView(context = context, addViewModel = addViewModel)},
-        )
+        scaffoldState = appState.scaffoldState,
+        topBar = {
+            AddTopBar(
+                cancelOnClick = { navController.navigate(Graph.HOME) },
+                forwardOnClick = {
+                    Log.d("PostApp", "AddScreen: forward Clicked")
+                    newPostViewModel.onEvent(
+                        NewPostEvent.SetPhoto(FileInputStream(imageFile.value))
+                    )
+                }
+            )
+        },
+        content = { GridView(context = context, imageFile = imageFile) },
+    )
+
+    Loading(isLoading = newPostViewModel.isLoading.value)
+
 }
 
 @Composable
 fun GridView(
     context: Context,
-    addViewModel: AddViewModel,
+    imageFile: MutableState<String>
 ) {
-    val viewModel by remember { mutableStateOf(addViewModel) }
     val imgList by remember { mutableStateOf(getImagePath(context)) }
-    val imageFile = remember { mutableStateOf("") }
 
     Column(Modifier.fillMaxSize()) {
 
@@ -71,7 +108,6 @@ fun GridView(
                         .size(125.dp)
                         .clickable {
                             imageFile.value = imgList[it]
-                            viewModel.onEvent(AddEvent.SetPhoto(imageFile.value))
                         }
                         .border(BorderStroke(2.dp, MaterialTheme.colors.secondaryVariant)),
                     shape = RectangleShape,
@@ -84,7 +120,6 @@ fun GridView(
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds
                     )
-
                 }
             }
         }
