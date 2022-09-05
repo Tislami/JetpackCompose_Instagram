@@ -2,15 +2,12 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.setuser.SetUserScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.OtherUserScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.profile.ProfileScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileViewModel
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -24,7 +21,7 @@ fun NavGraphBuilder.profileNavGraph(appState:AppState) {
             ProfileScreen(appState = appState)
         }
         composable(route = ProfileScreens.EditProfile.route) {
-            //EditProfileScreen()
+            EditProfileScreen(appState = appState)
         }
         composable(route = ProfileScreens.Followers.route) {
         }

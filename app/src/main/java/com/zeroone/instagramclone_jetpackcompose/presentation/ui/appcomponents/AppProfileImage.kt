@@ -52,8 +52,7 @@ fun AppProfileImage(
     ) {
         AsyncImage(
             modifier = Modifier.padding(4.dp),
-            model =
-            photoUrl ?: painterResource(id = R.drawable.default_person_image),
+            model = photoUrl,
             contentDescription = contentDescription)
     }
 }

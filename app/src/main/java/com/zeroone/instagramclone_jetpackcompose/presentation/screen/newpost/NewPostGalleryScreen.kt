@@ -1,7 +1,6 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost
 
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -17,15 +16,13 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.AddTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.AddScreens
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.NewPostScreens
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
-import kotlinx.coroutines.flow.collect
 import java.io.File
 import java.io.FileInputStream
 
@@ -46,7 +43,7 @@ fun AddScreen(
                 }
                 NewPostViewModel.UIEvent.PhotoAdded -> {
                     Log.d("PostApp", "AddScreen: success event ")
-                    navController.navigate(AddScreens.NewPost.route)
+                    navController.navigate(NewPostScreens.NewPost.route)
                 }
             }
         }

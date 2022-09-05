@@ -2,8 +2,7 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultUser
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
+import com.zeroone.instagramclone_jetpackcompose.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -11,33 +10,32 @@ import javax.inject.Inject
 @HiltViewModel
 class EditProfileViewModel @Inject constructor() : ViewModel() {
 
-    private val _editProfileState = mutableStateOf(EditProfileState())
-    val editProfileState = _editProfileState
+    private val _userState = mutableStateOf(User())
+    val userState = _userState
 
-    val isLoading = mutableStateOf(false)
 
-    fun onEvent(event: EditProfileEvent) {
-        when (event) {
-            EditProfileEvent.Cancel -> {}
-            EditProfileEvent.Done -> {
+    fun setUser(user: User){
+        _userState.value=user
+    }
 
-            }
-            is EditProfileEvent.SetBio -> {
-                _editProfileState.value = editProfileState.value.copy(bio = event.data)
-            }
-            is EditProfileEvent.SetDisplayName -> {
-                _editProfileState.value = editProfileState.value.copy(displayName = event.data)
-            }
-            is EditProfileEvent.SetLastname -> {
-                _editProfileState.value = editProfileState.value.copy(lastname = event.data)
-            }
-            is EditProfileEvent.SetName -> {
-                _editProfileState.value = editProfileState.value.copy(name = event.data)
-            }
-            is EditProfileEvent.SetPhoto -> {
-                _editProfileState.value = editProfileState.value.copy(photoUrl = event.data)
-            }
-        }
+    fun setName(name:String){
+        _userState.value = userState.value.copy(name = name)
+    }
+
+    fun setLastname(lastname:String){
+        _userState.value = userState.value.copy(lastname = lastname)
+    }
+
+    fun setDisplayName(displayName:String){
+        _userState.value = userState.value.copy(displayName = displayName)
+    }
+
+    fun setBio(bio:String) {
+        _userState.value = userState.value.copy(bio = bio)
+    }
+
+    fun setPhoto(photoUrl:String) {
+        _userState.value = userState.value.copy(photoUrl = photoUrl)
     }
 
 }

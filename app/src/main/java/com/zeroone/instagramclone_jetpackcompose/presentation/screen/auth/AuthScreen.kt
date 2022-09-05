@@ -17,7 +17,6 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserEvent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
-import kotlinx.coroutines.delay
 
 sealed class AuthContents {
     object Login : AuthContents()
@@ -56,7 +55,7 @@ fun AuthScreen(
     LaunchedEffect(key1 = "User") {
         userViewModel.eventFlow.collect { uiEvent ->
             when (uiEvent) {
-                is UserViewModel.UIEvent.Logged -> {
+                is UserViewModel.UIEvent.Set -> {
                     Log.d("AppAuth", "Auth_Screen: User logged event")
                     appState.navHostController.navigate(Graph.HOME)
                 }

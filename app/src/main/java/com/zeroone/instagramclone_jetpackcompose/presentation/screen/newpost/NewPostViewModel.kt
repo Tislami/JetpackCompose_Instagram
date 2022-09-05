@@ -11,6 +11,7 @@ import com.zeroone.instagramclone_jetpackcompose.domain.use_case.UseCase
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.UserUseCase
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -30,6 +31,7 @@ class NewPostViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     val isLoading = mutableStateOf(false)
+    private var job : Job?= null
 
     fun onEvent(event: NewPostEvent) {
         when (event) {
@@ -47,12 +49,13 @@ class NewPostViewModel @Inject constructor(
 
 
     private fun savePost() {
+        job?.cancel()
         val newPost = Post(
             title = newPostState.value.caption,
             photoUrl = newPostState.value.photoUrl,
             owner = userViewModel.userState.value.user.id
         )
-        viewModelScope.launch {
+        job = viewModelScope.launch {
             useCase.postUseCase.setPost(newPost).collect { response ->
                 when (response) {
                     is Response.Error -> {
@@ -73,7 +76,8 @@ class NewPostViewModel @Inject constructor(
 
     private fun setPhoto(inputStream: InputStream) {
         Log.d("PostApp", "viewModel_setPhoto: init ")
-        viewModelScope.launch {
+        job?.cancel()
+        job = viewModelScope.launch {
             useCase.postUseCase.setPostPhoto(
                 inputStream = inputStream,
                 owner = userViewModel.userState.value.user.id

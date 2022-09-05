@@ -2,17 +2,11 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Response
 import com.zeroone.instagramclone_jetpackcompose.domain.model.User
-import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultPost
-import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultUser
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.UseCase
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthEvent
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,13 +26,13 @@ class UserViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     val isLoading = mutableStateOf(false)
+    private var job : Job?= null
 
-
-    private fun setUser(name: String, lastname: String, displayName: String, bio: String, photoUrl: String?, )
+    private fun setUser(user: User )
     {
-        val user = User(name = name, lastname = lastname, displayName = displayName, bio = bio, photoUrl = photoUrl,)
         Log.d("AppAuth", "user_viewModel_set: set init")
-        viewModelScope.launch {
+        job?.cancel()
+        job = viewModelScope.launch {
             useCase.userUseCase.setUser(user).collect { response ->
                 when (response) {
                     is Response.Error -> {
@@ -53,7 +47,7 @@ class UserViewModel @Inject constructor(
                         isLoading.value = false
                         Log.d("AppAuth", "user_viewModel_set: success result ${response.data.id}")
                         _userState.value = userState.value.copy(user = response.data)
-                        _eventFlow.emit(UIEvent.Logged)
+                        _eventFlow.emit(UIEvent.Set)
                     }
                 }
             }
@@ -62,7 +56,8 @@ class UserViewModel @Inject constructor(
 
     private fun getUser(id: String) {
         Log.d("AppAuth", "user_viewModel_get: init")
-        viewModelScope.launch {
+        job?.cancel()
+        job = viewModelScope.launch {
             useCase.userUseCase.getUser(id = id).collect { response ->
                 when (response) {
                     is Response.Error -> {
@@ -76,9 +71,9 @@ class UserViewModel @Inject constructor(
                     is Response.Success -> {
                         isLoading.value = false
                         if (response.data != null) {
-                            Log.d("AppAuth", "user_viewModel_get: success result ${response.data.id}")
+                            Log.d("AppAuth", "user_viewModel_get: success result ${response.data.posts.size}")
                             _userState.value = userState.value.copy(user = response.data)
-                            _eventFlow.emit(UIEvent.Logged)
+                            _eventFlow.emit(UIEvent.Set)
                         } else {
                             _eventFlow.emit(UIEvent.NotCompleted)
                             Log.d("AppAuth", "user_viewModel_get: success result not completed")
@@ -110,7 +105,8 @@ class UserViewModel @Inject constructor(
     private fun getUserPosts(id : String) {
         Log.d("PostApp", "user_viewModel_getUserPosts: init")
 
-        viewModelScope.launch {
+        job?.cancel()
+        job = viewModelScope.launch {
             useCase.postUseCase.getUserPosts(id).collect { response ->
                 when(response){
                     is Response.Error -> {
@@ -120,7 +116,7 @@ class UserViewModel @Inject constructor(
                     }
                     is Response.Loading -> { isLoading.value=true }
                     is Response.Success -> {
-                        Log.d("PostApp", "user_viewModel_getUserPosts: response success ${response.data[0].title}")
+                        Log.d("PostApp", "user_viewModel_getUserPosts: response success ${response.data.size}")
                         isLoading.value=false
                         _userState.value = userState.value.copy(
                             posts = response.data
@@ -135,13 +131,7 @@ class UserViewModel @Inject constructor(
     fun onEvent(event: UserEvent) {
         when (event) {
             is UserEvent.SetUser -> {
-                setUser(
-                    name = event.name,
-                    lastname = event.lastname,
-                    displayName = event.displayName,
-                    bio = event.bio,
-                    photoUrl = event.photoUrl
-                )
+                setUser(event.user)
             }
             is UserEvent.GetUser -> {
                 getUser(event.data)
@@ -155,7 +145,7 @@ class UserViewModel @Inject constructor(
     sealed class UIEvent {
         data class Error(val message: String) : UIEvent()
         object NotCompleted : UIEvent()
-        object Logged : UIEvent()
+        object Set : UIEvent()
         object SignOut : UIEvent()
 
     }

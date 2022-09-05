@@ -1,9 +1,7 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
@@ -12,21 +10,21 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.New
 
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.addNavGraph(appState: AppState) {
+fun NavGraphBuilder.newPostNavGraph(appState: AppState) {
     navigation(
         route = Graph.ADD,
-        startDestination = AddScreens.Add.route,
+        startDestination = NewPostScreens.NewPostGallery.route,
     ) {
-        composable(route = AddScreens.Add.route) {
+        composable(route = NewPostScreens.NewPostGallery.route) {
             AddScreen(appState = appState)
         }
-        composable(route = AddScreens.NewPost.route) {
+        composable(route = NewPostScreens.NewPost.route) {
             NewPostScreen(appState =appState)
         }
     }
 }
 
-sealed class AddScreens(val route: String) {
-    object Add : AddScreens(route = "add")
-    object NewPost : AddScreens(route = "new_post")
+sealed class NewPostScreens(val route: String) {
+    object NewPostGallery : NewPostScreens(route = "new_post_gallery")
+    object NewPost : NewPostScreens(route = "new_post")
 }

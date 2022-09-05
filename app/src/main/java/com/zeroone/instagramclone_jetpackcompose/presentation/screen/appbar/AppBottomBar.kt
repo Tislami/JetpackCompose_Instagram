@@ -52,10 +52,7 @@ fun AppBottomBar(
                     },
                     selected = currentDestination.hierarchy.any { it.route == item.route },
                     onClick = {
-                        navController.navigate(item.route) {
-                            launchSingleTop = true
-                            restoreState = true
-                        }
+                        navController.navigate(item.route) { launchSingleTop = true }
                     }
                 )
             }

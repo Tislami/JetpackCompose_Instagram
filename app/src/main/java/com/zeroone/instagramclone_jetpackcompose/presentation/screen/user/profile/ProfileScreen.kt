@@ -1,5 +1,6 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.profile
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -24,6 +25,7 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppSta
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.ProfileScreens
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.Indicator
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserEvent
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.*
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.CollapsedPostCard
@@ -31,23 +33,22 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.Collapsed
 @Composable
 fun ProfileScreen(
     appState: AppState,
-    userViewModel: UserViewModel = hiltViewModel(),
+    viewModel: UserViewModel = hiltViewModel(),
 ) {
     val navController by remember { mutableStateOf(appState.navHostController) }
-    val user = remember { mutableStateOf(userViewModel.userState.value.user) }
 
-
-    LaunchedEffect(key1 = "User" ){
-        userViewModel.onEvent(UserEvent.GetUserPosts(user.value.id))
+    LaunchedEffect(key1 = "User") {
+        viewModel.onEvent(
+            UserEvent.GetUserPosts(viewModel.userState.value.user.id,)
+        )
     }
 
     Scaffold(
         scaffoldState = appState.scaffoldState,
-        topBar = { ProfileTopBar(user.value.displayName) },
+        topBar = { ProfileTopBar(viewModel.userState.value.user.displayName) },
         content = {
             Content(
-                user = user.value,
-                posts=userViewModel.userState.value.posts,
+                userState = viewModel.userState.value,
                 navigateToFollowers = { navController.navigate(ProfileScreens.Followers.route) },
                 navigateToFollowing = { navController.navigate(ProfileScreens.Following.route) },
                 navigateToEditProfile = { navController.navigate(ProfileScreens.EditProfile.route) },
@@ -59,8 +60,7 @@ fun ProfileScreen(
 
 @Composable
 private fun Content(
-    user: User,
-    posts: List<Post>,
+    userState: UserState,
     navigateToFollowers: () -> Unit,
     navigateToFollowing: () -> Unit,
     navigateToEditProfile: () -> Unit,
@@ -70,13 +70,13 @@ private fun Content(
         modifier = modifier.padding(horizontal = 8.dp)
     ) {
         Head(
-            user = user,
+            userState = userState,
             navigateToFollowers = navigateToFollowers,
             navigateToFollowing = navigateToFollowing,
             navigateToEditProfile = navigateToEditProfile
         )
         Body(
-            posts = posts,
+            posts = userState.posts,
             navigateToPost = {}
         )
     }
@@ -84,11 +84,12 @@ private fun Content(
 
 @Composable
 private fun Head(
-    user: User,
+    userState: UserState,
     navigateToFollowers: () -> Unit,
     navigateToFollowing: () -> Unit,
     navigateToEditProfile: () -> Unit,
 ) {
+
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -99,25 +100,25 @@ private fun Head(
         Column(horizontalAlignment = Alignment.Start) {
             AppProfileImage(painterResourceId = null, size = 90.dp)
             Spacer(modifier = Modifier.height(8.dp))
-            AppText(text = user.displayName)
+            AppText(text = userState.user.displayName)
         }
 
 
         Indicator(
             title = stringResource(id = R.string.posts),
-            count = user.posts.size,
+            count = userState.posts.size,
             onClick = { }
         )
 
         Indicator(
             title = stringResource(id = R.string.followers),
-            count = user.followers.size,
+            count = userState.followers.size,
             onClick = navigateToFollowers
         )
 
         Indicator(
             title = stringResource(id = R.string.following),
-            count = user.following.size,
+            count = userState.following.size,
             onClick = navigateToFollowing
         )
 
@@ -146,7 +147,7 @@ private fun Body(
 
     if (posts.isNotEmpty())
         LazyVerticalGrid(columns = GridCells.Adaptive(125.dp)) {
-            items(posts) {post->
+            items(posts) { post ->
                 CollapsedPostCard(post.photoUrl)
             }
         }

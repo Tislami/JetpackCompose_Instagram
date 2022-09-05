@@ -3,17 +3,13 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation
 import androidx.compose.animation.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.NewPostViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.home.HomeScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.notification.NotificationScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -34,7 +30,7 @@ fun MainNavGraph(
     ) {
         authNavGraph(appState)
         profileNavGraph(appState)
-        addNavGraph(appState)
+        newPostNavGraph(appState)
 
         composable(route = Graph.HOME) { HomeScreen(appState) }
         composable(route = Graph.DISCOVERY) { DiscoveryScreen(navController) }

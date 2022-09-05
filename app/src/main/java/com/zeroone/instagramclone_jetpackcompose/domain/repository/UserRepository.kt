@@ -62,6 +62,8 @@ class UserRepositoryImpl(
             .addSnapshotListener { value, error ->
                 val response= if (value != null) {
                     val user = value.toObject(User::class.java)
+                    Log.d("PostSize", "Head: $user")
+
                     Log.d("AppAuth", "user_repo_get: get user success ${user?.id} ")
                     Response.Success(user)
                 } else {
