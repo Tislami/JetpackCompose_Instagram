@@ -9,9 +9,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.AddScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.AddViewModel
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.NewPostScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.AddScreen
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.AddViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.NewPostScreen
 
 
 @OptIn(ExperimentalAnimationApi::class)

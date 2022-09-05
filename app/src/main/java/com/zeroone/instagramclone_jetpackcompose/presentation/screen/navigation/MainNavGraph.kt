@@ -7,16 +7,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.add.AddViewModel
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthScreen
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.content.CreateUserContent
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.AddViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.home.HomeScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.notification.NotificationScreen
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileViewModel
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.profile.FollowersScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -39,7 +36,7 @@ fun MainNavGraph(
         popExitTransition = { fadeOut() },
     ) {
         authNavGraph(appState)
-        profileNavGraph( navController,editProfileViewModel,userViewModel)
+        profileNavGraph( navController,editProfileViewModel)
         addNavGraph( navController, addViewModel )
 
         composable(route=Graph.HOME){ HomeScreen(appState) }

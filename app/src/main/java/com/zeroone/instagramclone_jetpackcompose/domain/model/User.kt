@@ -1,7 +1,5 @@
 package com.zeroone.instagramclone_jetpackcompose.domain.model
 
-import com.zeroone.instagramclone_jetpackcompose.R
-
 data class User(
     val id: String="",
     val email: String ="",
@@ -11,7 +9,7 @@ data class User(
     val displayName: String ="",
     val bio: String = "",
     val photoUrl: String? = null,
-    val posts: List<Post> = emptyList(),
+    val posts: List<String> = emptyList(),
     val followers: List<String> = emptyList(),
     val following: List<String> = emptyList(),
 )

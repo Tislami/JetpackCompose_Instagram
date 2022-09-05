@@ -7,7 +7,7 @@ data class Post(
     val title: String= "",
     val description: String= "",
     val photoUrl: Int? = null,
-    val owner: User,
+    val owner: String,
     val like: Int = 0,
 )
 
@@ -15,6 +15,6 @@ val defaultPost = Post(
     title = "Title1",
     description = "Description",
     photoUrl = R.drawable.default_post_image,
-    owner = defaultUser,
+    owner = "defaultUser",
     like = 5,
     )

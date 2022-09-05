@@ -16,7 +16,6 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.E
 fun NavGraphBuilder.profileNavGraph(
     navHostController: NavHostController,
     editProfileViewModel: EditProfileViewModel,
-    userViewModel: UserViewModel,
 ) {
 
     navigation(
@@ -24,10 +23,7 @@ fun NavGraphBuilder.profileNavGraph(
         startDestination = ProfileScreens.Profile.route,
     ) {
         composable(route = ProfileScreens.Profile.route) {
-            OtherUserScreen(
-                navHostController= navHostController,
-                userViewModel = userViewModel
-            )
+            ProfileScreen(navHostController= navHostController)
         }
         composable(route = ProfileScreens.EditProfile.route) {
             EditProfileScreen(

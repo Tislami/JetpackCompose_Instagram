@@ -36,7 +36,7 @@ fun OtherUserScreen(
     }
 
     Scaffold(
-        topBar = { ProfileTopBar() },
+        topBar = { ProfileTopBar("alsdmf") },
         content = {
             Content(
                 user = defaultUser,
@@ -53,7 +53,7 @@ private fun Content(
 ) {
     Column {
         Head(user = user, navHostController = navHostController)
-        Body(posts = user.posts)
+        //Body(posts = user.posts)
     }
 }
 

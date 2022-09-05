@@ -72,12 +72,12 @@ class AuthRepositoryImpl(private val auth: FirebaseAuth) : AuthRepository {
 
     override fun getAuthState() = flow {
         try {
-
             emit(Response.Loading)
-            val result = Response.Success("")
+            val result = Response.Success(auth.currentUser?.uid)
             emit(result)
-        } catch (e: Exception) {
-            emit(Response.Error(e.message ?: "Unknown"))
+        }
+        catch (e:Exception){
+            emit(Response.Error(e.message?:"Unknown"))
         }
     }
 

@@ -41,7 +41,6 @@ fun AuthScreen(
                     Log.d("AppAuth", "Auth_Screen: Auth login event")
                     appState.showToast("Logged")
                     appState.showSnackBar("Logged")
-                    delay(10000)
                     userViewModel.onEvent(UserEvent.GetUser(uiEvent.id))
                 }
                 is AuthViewModel.UIEvent.CreateUser -> {
@@ -49,12 +48,10 @@ fun AuthScreen(
                     appState.showToast("Created")
                     appState.showSnackBar("Created")
                     userViewModel.onEvent(UserEvent.CreateUser(uiEvent.id, uiEvent.email))
-                    delay(10000)
                     appState.navHostController.navigate(AuthScreens.SetProfile.route)
                 }
                 is AuthViewModel.UIEvent.Error -> {
                     Log.d("AppAuth", "Auth_Screen: Auth error event")
-                    delay(10000)
                     appState.showSnackBar(uiEvent.message)
                 }
             }
@@ -68,12 +65,10 @@ fun AuthScreen(
                     Log.d("AppAuth", "Auth_Screen: User logged event")
                     appState.showToast("Got")
                     appState.showSnackBar("Got")
-                    delay(30000)
                     appState.navHostController.navigate(Graph.HOME)
                 }
                 is UserViewModel.UIEvent.Error -> {
                     Log.d("AppAuth", "Auth_Screen: User error event")
-                    delay(30000)
                     appState.showSnackBar(uiEvent.message)
                 }
                 is UserViewModel.UIEvent.NotCompleted -> {
@@ -81,7 +76,6 @@ fun AuthScreen(
                     appState.showToast("not completed")
                     appState.showSnackBar("not completed")
                     userViewModel.onEvent(UserEvent.CreateUser(uiEvent.id, authViewModel.authState.value.email))
-                    delay(30000)
                     appState.navHostController.navigate(AuthScreens.SetProfile.route)
                 }
             }

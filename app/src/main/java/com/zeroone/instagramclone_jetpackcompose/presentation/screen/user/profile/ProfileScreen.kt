@@ -3,6 +3,7 @@ package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.profi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -16,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.domain.model.User
@@ -30,19 +32,17 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.Collapsed
 @Composable
 fun ProfileScreen(
     navHostController: NavHostController,
-    userViewModel: UserViewModel,
+    userViewModel: UserViewModel= hiltViewModel(),
 ) {
-
-    val viewModel by remember {
-        mutableStateOf(userViewModel)
-    }
+    val viewModel by remember { mutableStateOf(userViewModel) }
 
     Scaffold(
-        topBar = { ProfileTopBar() },
+        topBar = { ProfileTopBar(viewModel.userState.value.user.displayName) },
         content = {
             Content(
-                user = defaultUser,
+                user = viewModel.userState.value.user,
                 navHostController = navHostController,
+                modifier = Modifier.padding(it)
             )
         }
     )
@@ -52,15 +52,16 @@ fun ProfileScreen(
 private fun Content(
     user: User,
     navHostController: NavHostController,
+    modifier: Modifier= Modifier,
 ) {
-    Column {
+    Column(
+        modifier = modifier.padding(horizontal = 8.dp)
+    ) {
         Head(user = user, navHostController = navHostController
         )
         Body(
             user = user,
-            navigateToNewPost = {
-                navHostController.navigate(ProfileScreens.EditProfile.route)
-            }
+            navigateToNewPost = {}
         )
     }
 }
@@ -82,7 +83,7 @@ private fun Head(
         Column(horizontalAlignment = Alignment.Start) {
             AppProfileImage(painterResourceId = null, size = 90.dp)
             Spacer(modifier = Modifier.height(8.dp))
-            AppText(text = user.displayName, fontSize = 12.sp)
+            AppText(text = user.displayName)
         }
 
         Indicator(stringResource(id = R.string.posts), user.posts.size) {}
@@ -118,8 +119,8 @@ private fun Body(
 
     if (user.posts.isNotEmpty())
         LazyVerticalGrid(columns = GridCells.Adaptive(125.dp)) {
-            items(50) {
-                CollapsedPostCard(painterResourceId = R.drawable.default_post_image)
+            items(user.posts) {
+                //CollapsedPostCard(painterResourceId = it.photoUrl!!.toInt())
             }
         }
     else Column(

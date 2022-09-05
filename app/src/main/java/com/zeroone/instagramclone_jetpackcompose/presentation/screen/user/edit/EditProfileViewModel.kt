@@ -16,7 +16,6 @@ class EditProfileViewModel @Inject constructor() : ViewModel() {
 
     val isLoading = mutableStateOf(false)
 
-
     fun onEvent(event: EditProfileEvent) {
         when (event) {
             EditProfileEvent.Cancel -> {}

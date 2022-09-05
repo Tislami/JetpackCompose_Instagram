@@ -11,15 +11,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.zeroone.instagramclone_jetpackcompose.R
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileEvent
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppText
 
 @Composable
-fun ProfileTopBar() {
+fun ProfileTopBar(
+    displayName: String,
+) {
     TopAppBar(
         elevation = 1.dp,
         backgroundColor = MaterialTheme.colors.surface,
         title = {
-            AppText(text = "Display Name")
+            AppText(text = displayName)
         },
         actions = {
             IconButton(

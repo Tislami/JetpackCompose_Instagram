@@ -9,6 +9,7 @@ import com.zeroone.instagramclone_jetpackcompose.domain.use_case.UseCase
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -26,10 +27,6 @@ class AuthViewModel @Inject constructor(private val useCase: UseCase, ) : ViewMo
     val isLoading = mutableStateOf(false)
     private var loginJob: Job? = null
 
-    init {
-        getAuthState()
-    }
-
     private fun getAuthState() {
         viewModelScope.launch {
             useCase.authUseCase.getAuthState().collect { response ->
@@ -40,8 +37,11 @@ class AuthViewModel @Inject constructor(private val useCase: UseCase, ) : ViewMo
                     }
                     is Response.Loading -> { isLoading.value = true }
                     is Response.Success -> {
-                        _authState.value = authState.value.copy(authState = response.data)
                         isLoading.value = false
+                        if (response.data!=null){
+                            _authState.value= authState.value.copy(authState=response.data)
+                            Log.d("AppAuth", "getAuthState: ${response.data}")
+                        }
                     }
                 }
             }

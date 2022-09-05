@@ -112,7 +112,7 @@ private fun Head(post: Post) {
         ) {
 
             AppText(
-                text = post.owner.displayName,
+                text = post.owner,
                 fontWeight = FontWeight.Bold,
             )
             AppText(

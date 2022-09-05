@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.add
+package com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost
 
 
 data class AddState(

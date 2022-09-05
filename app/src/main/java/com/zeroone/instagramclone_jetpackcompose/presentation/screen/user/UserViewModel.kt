@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Response
 import com.zeroone.instagramclone_jetpackcompose.domain.model.User
+import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultPost
 import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultUser
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.UseCase
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthEvent
