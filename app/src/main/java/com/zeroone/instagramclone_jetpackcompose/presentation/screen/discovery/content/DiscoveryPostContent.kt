@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery
+package com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.content
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,7 +15,7 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.Collapsed
 @Composable
 fun DiscoveryPostContent(
     posts: List<Post>,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
 ) {
 
     LazyVerticalGrid(
@@ -26,7 +26,7 @@ fun DiscoveryPostContent(
 
             CollapsedPostCard(
                 photoUrl = post.photoUrl,
-                onClick = onClick
+                onClick = { onClick(post.id) }
             )
         }
     }

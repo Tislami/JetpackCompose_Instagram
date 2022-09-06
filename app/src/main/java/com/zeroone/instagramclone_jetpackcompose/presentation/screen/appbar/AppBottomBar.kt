@@ -38,7 +38,7 @@ fun AppBottomBar(
 
     if (currentDestination?.route == Graph.HOME ||
         currentDestination?.route == Graph.NOTIFICATION ||
-        currentDestination?.route == Graph.DISCOVERY ||
+        currentDestination?.parent?.route == Graph.DISCOVERY ||
         currentDestination?.route == ProfileScreens.Profile.route
             ) {
         BottomNavigation(

@@ -31,9 +31,9 @@ fun MainNavGraph(
         authNavGraph(appState)
         profileNavGraph(appState)
         newPostNavGraph(appState)
+        discoveryNavGraph(appState)
 
         composable(route = Graph.HOME) { HomeScreen(appState) }
-        composable(route = Graph.DISCOVERY) { DiscoveryScreen(appState) }
         composable(route = Graph.NOTIFICATION) { NotificationScreen() }
     }
 }

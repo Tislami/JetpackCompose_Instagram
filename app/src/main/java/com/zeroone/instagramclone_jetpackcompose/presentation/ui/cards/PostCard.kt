@@ -38,6 +38,40 @@ fun PostCard(post: Post) {
 }
 
 @Composable
+private fun Head(post: Post) {
+    Row(
+        modifier = Modifier.padding(start = 4.dp, bottom = 8.dp, top = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        AppProfileImage(
+            painterResourceId = null, size = 56.dp
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(start = 8.dp)
+        ) {
+
+            AppText(
+                text = post.title,
+                fontWeight = FontWeight.Bold,
+            )
+            AppText(
+                text = post.description,
+                fontSize = 14.sp
+            )
+        }
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+        }
+    }
+}
+
+@Composable
 private fun Body(post: Post) {
     Surface(
         modifier = Modifier
@@ -91,39 +125,4 @@ private fun Bottom() {
         )
     }
     
-}
-
-
-@Composable
-private fun Head(post: Post) {
-    Row(
-        modifier = Modifier.padding(start = 4.dp, bottom = 8.dp, top = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        AppProfileImage(
-            painterResourceId = null, size = 56.dp
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(start = 8.dp)
-        ) {
-
-            AppText(
-                text = post.owner,
-                fontWeight = FontWeight.Bold,
-            )
-            AppText(
-                text = post.title,
-                fontSize = 14.sp
-            )
-        }
-
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
-        }
-    }
 }
