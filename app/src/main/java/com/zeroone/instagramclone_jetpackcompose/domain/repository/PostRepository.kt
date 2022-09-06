@@ -37,14 +37,15 @@ class PostRepositoryImpl(
             Log.d("PostApp", "post_repo_setPost: init")
             var result: Response<String> = Response.Loading
             emit(result)
+
             val id = postCollection.document().id
+            val newPost= post.copy(id= id, owner = auth.currentUser!!.uid)
 
             val userCollection = userCollection.document(auth.currentUser!!.uid)
             val postCollection = postCollection.document(id)
 
             firestore.runBatch {batch ->
-                batch.set(postCollection, post)
-                batch.update(postCollection, "owner",auth.currentUser!!.uid)
+                batch.set(postCollection, newPost)
                 batch.update(userCollection,"posts",  FieldValue.arrayUnion(id))
             }.addOnSuccessListener {
                 Log.d("PostApp", "post_repo_setPost: success $id")
@@ -112,11 +113,15 @@ class PostRepositoryImpl(
     }
 
     override fun getPosts() = callbackFlow {
+        Log.d("discoveryApp", "post_repo_getPosts: init")
+
         val snapshot = postCollection.addSnapshotListener { value, error ->
             val response = if (value != null) {
                 val posts = value.toObjects(Post::class.java)
+                Log.d("discoveryApp", "post_repo_getPosts: success ${posts.size}")
                 Response.Success(posts)
             } else {
+                Log.d("discoveryApp", "post_repo_getPosts: error ${error?.message}")
                 Response.Error(error?.message ?: "")
             }
             trySend(response)

@@ -4,4 +4,5 @@ data class PostUseCase (
     val setPost: SetPost,
     val setPostPhoto: SetPostPhoto,
     val getUserPosts: GetUserPosts,
+    val getPosts: GetPosts
 )

@@ -33,7 +33,7 @@ fun MainNavGraph(
         newPostNavGraph(appState)
 
         composable(route = Graph.HOME) { HomeScreen(appState) }
-        composable(route = Graph.DISCOVERY) { DiscoveryScreen(navController) }
+        composable(route = Graph.DISCOVERY) { DiscoveryScreen(appState) }
         composable(route = Graph.NOTIFICATION) { NotificationScreen() }
     }
 }

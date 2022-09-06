@@ -21,7 +21,7 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.A
 fun DiscoveryTopBar(
     query:String,
     onValueChange: (String) -> Unit,
-    onFocusChange: (FocusState) -> Unit,
+    onFocusChange: (Boolean) -> Unit,
 ) {
     TopAppBar(
         elevation = 0.dp,
