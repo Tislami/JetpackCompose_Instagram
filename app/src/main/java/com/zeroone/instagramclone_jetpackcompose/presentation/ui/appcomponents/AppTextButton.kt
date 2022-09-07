@@ -4,6 +4,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 
@@ -15,6 +16,7 @@ fun AppTextButton(
     textAlign: TextAlign? = null,
     modifier : Modifier = Modifier,
     fontSize: TextUnit = TextUnit.Unspecified,
+    fontWeight: FontWeight?=null,
     color: Color = MaterialTheme.colors.primary
     ) {
 
@@ -24,7 +26,8 @@ fun AppTextButton(
             color = color,
             modifier = modifier,
             textAlign = textAlign,
-            fontSize = fontSize
+            fontSize = fontSize,
+            fontWeight = fontWeight
         )
     }
 }

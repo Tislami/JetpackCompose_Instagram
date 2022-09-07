@@ -5,10 +5,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Response
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.DiscoveryTopBar
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.DiscoveryTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.content.DiscoveryPostContent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.DiscoveryScreens
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
 
 @Composable
@@ -39,8 +39,8 @@ fun DiscoveryScreen(
                     is Response.Success -> {
                         if (result.data.isNotEmpty()) {
                             Log.d("discoveryApp", "DiscoveryScreen_query: response success ${result.data.size}")
-                            DiscoveryUserContent(users = result.data, onClick = {
-
+                            DiscoveryUserContent(users = result.data, onClick = {userId->
+                                navController.navigate(Graph.OTHER_USER + "/${userId}")
                             })
                         }
                     }
@@ -56,8 +56,8 @@ fun DiscoveryScreen(
                     is Response.Loading -> Loading()
                     is Response.Success -> {
                         Log.d("discoveryApp", "DiscoveryScreen_posts: response success ${result.data.size}")
-                        DiscoveryPostContent(posts = result.data, onClick = {id->
-                            navController.navigate(DiscoveryScreens.DiscoveryPost.route + "/$id")
+                        DiscoveryPostContent(posts = result.data, onClick = {postId->
+                            navController.navigate(Graph.FEEDS + "/$postId")
                         })
                     }
                 }

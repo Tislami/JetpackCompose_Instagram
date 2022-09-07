@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.AddTopBar
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.AddTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.NewPostScreens
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph

@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.domain.model.User
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppEditTextField
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.EditProfileTopBar
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.EditProfileTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserEvent

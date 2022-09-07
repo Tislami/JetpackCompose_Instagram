@@ -1,45 +1,41 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
+package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppText
-import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
-
 
 @Composable
-fun AddTopBar(
-    cancelOnClick: ()-> Unit,
-    forwardOnClick: ()-> Unit,
+fun EditProfileTopBar(
+    onClickCancel:()->Unit,
+    onClickDone:()->Unit,
 ) {
+
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = cancelOnClick) {
+            IconButton(onClick = onClickCancel ) {
                 Icon(imageVector = Icons.Default.Clear, contentDescription = null)
             }
         },
         title = {
             AppText(
-                text = stringResource(id = R.string.gallery),
+                text = stringResource(id = R.string.edit_profile),
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
         },
 
         actions = {
-            IconButton(onClick = forwardOnClick) {
+            IconButton(onClick =  onClickDone) {
                 Icon(
-                    imageVector = Icons.Default.ArrowForward,
+                    imageVector = Icons.Default.Done,
                     contentDescription = null,
                     tint = MaterialTheme.colors.primary,
                 )

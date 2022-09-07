@@ -1,12 +1,8 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
+package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,19 +41,7 @@ fun HomeTopBar() {
             }
         },
         actions = {
-            IconButton(
-                modifier = Modifier.size(32.dp),
-                onClick = { /*TODO*/ }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_outlined_add),
-                    contentDescription = null
-                )
-            }
-            
-            Spacer(modifier = Modifier.width(16.dp))
-            
-            
-            
+
             IconButton(
                 modifier = Modifier.size(32.dp),
                 onClick = { /*TODO*/ }) {

@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
+package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons

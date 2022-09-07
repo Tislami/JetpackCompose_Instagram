@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Post
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Response
-import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultPost
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.UseCase
-import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.UserUseCase
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -51,9 +49,13 @@ class NewPostViewModel @Inject constructor(
     private fun savePost() {
         job?.cancel()
         val newPost = Post(
-            title = newPostState.value.caption,
+            caption = newPostState.value.caption,
             photoUrl = newPostState.value.photoUrl,
-            owner = userViewModel.userState.value.user.id
+            owner = hashMapOf(
+                "id" to userViewModel.userState.value.user.id,
+                "displayName" to userViewModel.userState.value.user.displayName,
+                "photoUrl" to userViewModel.userState.value.user.photoUrl,
+            )
         )
         job = viewModelScope.launch {
             useCase.postUseCase.setPost(newPost).collect { response ->

@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.profile
+package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.otheruser
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,10 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Post
-import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.ProfileTopBar
+import com.zeroone.instagramclone_jetpackcompose.domain.model.User
+import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultUser
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.ProfileScreens
@@ -24,21 +27,30 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.Indica
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserEvent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.ProfileTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.*
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.CollapsedPostCard
+import kotlinx.coroutines.flow.collect
 
 @Composable
-fun ProfileScreen(
+fun OtherUserScreen(
     appState: AppState,
-    userViewModel: UserViewModel = hiltViewModel(),
+    otherUserViewModel: OtherUserViewModel= hiltViewModel(),
+    id:String,
 ) {
+
     val navController by remember { mutableStateOf(appState.navHostController) }
-    val viewModel by remember { mutableStateOf(userViewModel) }
+    val viewModel by remember { mutableStateOf(otherUserViewModel) }
 
     LaunchedEffect(key1 = "User") {
-        viewModel.onEvent(
-            UserEvent.GetUserPosts(viewModel.userState.value.user.id,)
-        )
+        viewModel.getUser(id)
+        viewModel.eventFlow.collect{uiEvent->
+            when(uiEvent){
+                is OtherUserViewModel.UIEvent.Error -> {
+                    appState.showSnackBar(uiEvent.message)
+                }
+            }
+        }
     }
 
     Scaffold(
@@ -52,8 +64,7 @@ fun ProfileScreen(
                 userState = viewModel.userState.value,
                 navigateToFollowers = { navController.navigate(ProfileScreens.Followers.route) },
                 navigateToFollowing = { navController.navigate(ProfileScreens.Following.route) },
-                navigateToEditProfile = { navController.navigate(ProfileScreens.EditProfile.route) },
-                navigateToNewPost = { navController.navigate(Graph.NEW_POST) },
+                followOnClick = {  },
                 modifier = Modifier.padding(it)
             )
         }
@@ -65,8 +76,7 @@ private fun Content(
     userState: UserState,
     navigateToFollowers: () -> Unit,
     navigateToFollowing: () -> Unit,
-    navigateToEditProfile: () -> Unit,
-    navigateToNewPost: () -> Unit,
+    followOnClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -76,12 +86,9 @@ private fun Content(
             userState = userState,
             navigateToFollowers = navigateToFollowers,
             navigateToFollowing = navigateToFollowing,
-            navigateToEditProfile = navigateToEditProfile
+            followOnClick = followOnClick
         )
-        Body(
-            posts = userState.posts,
-            navigateToNewPost = navigateToNewPost
-        )
+        Body(posts = userState.posts)
     }
 }
 
@@ -90,7 +97,7 @@ private fun Head(
     userState: UserState,
     navigateToFollowers: () -> Unit,
     navigateToFollowing: () -> Unit,
-    navigateToEditProfile: () -> Unit,
+    followOnClick: () -> Unit,
 ) {
 
     Row(
@@ -103,9 +110,8 @@ private fun Head(
         Column(horizontalAlignment = Alignment.Start) {
             AppProfileImage(painterResourceId = null, size = 90.dp)
             Spacer(modifier = Modifier.height(8.dp))
-            AppText(text = userState.user.displayName)
+            AppText(text = userState.user.displayName, fontSize = 12.sp)
         }
-
 
         Indicator(
             title = stringResource(id = R.string.posts),
@@ -124,52 +130,43 @@ private fun Head(
             count = userState.following.size,
             onClick = navigateToFollowing
         )
-
     }
 
-    AppButton(
-        text = stringResource(id = R.string.edit_profile),
-        onClick = navigateToEditProfile,
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 16.dp)
-    )
+            .padding(vertical = 16.dp)
+    ) {
+        AppPrimaryButton(
+            text = stringResource(id = R.string.follow),
+            onClick = followOnClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 8.dp)
+        )
 
-    Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    )
+        AppButton(
+            text = stringResource(id = R.string.message),
+            onClick = {  },
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 8.dp)
+        )
+    }
+
+    Divider(modifier = Modifier
+        .fillMaxWidth()
+        .padding(8.dp))
 }
 
 @Composable
-private fun Body(
-    posts: List<Post>,
-    navigateToNewPost: () -> Unit
-) {
-
-    if (posts.isNotEmpty())
-        LazyVerticalGrid(columns = GridCells.Adaptive(125.dp)) {
-            items(posts) { post ->
-                CollapsedPostCard(post.photoUrl)
-            }
+private fun Body(posts: List<Post>) {
+    LazyVerticalGrid(columns = GridCells.Adaptive(125.dp)) {
+        items(posts) { post ->
+            CollapsedPostCard(post.photoUrl)
         }
-    else
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            AppText(
-                text = stringResource(id = R.string.profile_desc),
-                color = MaterialTheme.colors.onBackground.copy(alpha = .5f),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            AppTextButton(
-                text = stringResource(id = R.string.share_your_first_post),
-                onClick = navigateToNewPost
-            )
-        }
+    }
 }
 

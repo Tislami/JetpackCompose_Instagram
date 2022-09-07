@@ -12,11 +12,11 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.Discovery
 @Composable
 fun DiscoveryUserContent(
     users: List<User>,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
 ) {
     LazyColumn{
         items(items = users, key = { user -> user.id }) { user ->
-            DiscoveryUserCard(user = user, onClick = onClick)
+            DiscoveryUserCard(user = user, onClick = {onClick(user.id)})
         }
     }
 }

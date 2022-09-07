@@ -1,48 +1,41 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
+package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation.NavHostController
 import com.zeroone.instagramclone_jetpackcompose.R
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.ProfileScreens
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppText
-import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
 
 @Composable
-fun EditProfileTopBar(
-    onClickCancel:()->Unit,
-    onClickDone:()->Unit,
+fun NewPostTopBar(
+    cancelOnClick: ()-> Unit,
+    doneOnClick:()->Unit
 ) {
-
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = onClickCancel ) {
+            IconButton(onClick = cancelOnClick) {
                 Icon(imageVector = Icons.Default.Clear, contentDescription = null)
             }
         },
         title = {
             AppText(
-                text = stringResource(id = R.string.edit_profile),
+                text = stringResource(id = R.string.new_post),
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
         },
 
         actions = {
-            IconButton(onClick =  onClickDone) {
+            IconButton(onClick = doneOnClick) {
                 Icon(
                     imageVector = Icons.Default.Done,
                     contentDescription = null,

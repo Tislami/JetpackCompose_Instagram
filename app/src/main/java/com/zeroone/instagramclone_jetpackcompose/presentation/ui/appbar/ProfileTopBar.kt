@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
+package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -10,10 +10,16 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.A
 @Composable
 fun ProfileTopBar(
     displayName: String,
+    onClickBack:()->Unit,
 ) {
     TopAppBar(
         elevation = 1.dp,
         backgroundColor = MaterialTheme.colors.surface,
+        navigationIcon = {
+            IconButton(onClick = onClickBack ) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+            }
+        },
         title = {
             AppText(text = displayName)
         },

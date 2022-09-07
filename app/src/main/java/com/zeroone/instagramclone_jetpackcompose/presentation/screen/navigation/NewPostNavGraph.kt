@@ -12,7 +12,7 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.New
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.newPostNavGraph(appState: AppState) {
     navigation(
-        route = Graph.ADD,
+        route = Graph.NEW_POST,
         startDestination = NewPostScreens.NewPostGallery.route,
     ) {
         composable(route = NewPostScreens.NewPostGallery.route) {

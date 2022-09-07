@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
+package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomAppBar

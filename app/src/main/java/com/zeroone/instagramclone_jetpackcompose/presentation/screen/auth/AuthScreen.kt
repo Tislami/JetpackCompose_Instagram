@@ -7,8 +7,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.AuthBottomBar
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.AuthTopBar
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.AuthBottomBar
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.AuthTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.content.LoginContent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.content.RegistrationContent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState

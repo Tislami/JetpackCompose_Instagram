@@ -1,6 +1,5 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar
+package com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar
 
-import android.util.Log
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -19,7 +18,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.zeroone.instagramclone_jetpackcompose.R
@@ -38,7 +36,8 @@ fun AppBottomBar(
 
     if (currentDestination?.route == Graph.HOME ||
         currentDestination?.route == Graph.NOTIFICATION ||
-        currentDestination?.parent?.route == Graph.DISCOVERY ||
+        currentDestination?.route == Graph.DISCOVERY ||
+        currentDestination?.route == Graph.FEEDS ||
         currentDestination?.route == ProfileScreens.Profile.route
             ) {
         BottomNavigation(
@@ -79,7 +78,7 @@ sealed class BottomBarScreen(
     )
 
     object Add : BottomBarScreen(
-        route = Graph.ADD,
+        route = Graph.NEW_POST,
         title = "Add",
         icon = Icons.Rounded.Add
     )

@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import java.io.InputStream
 import java.util.*
-import kotlin.reflect.jvm.internal.impl.util.AbstractArrayMapOwner
 
 interface PostRepository {
     fun setPost(post: Post) : Flow<Response<String>>
@@ -38,18 +37,17 @@ class PostRepositoryImpl(
             var result: Response<String> = Response.Loading
             emit(result)
 
-            val id = postCollection.document().id
-            val newPost= post.copy(id= id, owner = auth.currentUser!!.uid)
-
+            val postId = postCollection.document().id
             val userCollection = userCollection.document(auth.currentUser!!.uid)
-            val postCollection = postCollection.document(id)
+            val postCollection = postCollection.document(postId)
 
             firestore.runBatch {batch ->
-                batch.set(postCollection, newPost)
-                batch.update(userCollection,"posts",  FieldValue.arrayUnion(id))
+                batch.set(postCollection, post)
+                batch.update(postCollection,"id",postId)
+                batch.update(userCollection,"posts",  FieldValue.arrayUnion(postId))
             }.addOnSuccessListener {
-                Log.d("PostApp", "post_repo_setPost: success $id")
-                result = Response.Success(id)
+                Log.d("PostApp", "post_repo_setPost: success $postId")
+                result = Response.Success(postId)
             }.addOnFailureListener {
                 Log.d("PostApp", "post_repo_setPost: failure ${it.message}")
                 result = Response.Error(it.message ?: "Unknown error")
@@ -94,7 +92,7 @@ class PostRepositoryImpl(
     override fun getUserPosts(id: String) = callbackFlow {
         Log.d("PostApp", "post_repo_getUserPosts: init")
         trySend(Response.Loading)
-        val snapshot = postCollection.whereEqualTo("owner", id)
+        val snapshot = postCollection.whereEqualTo("owner.id",id)
             .addSnapshotListener { value, error ->
                 val response = if (value != null) {
                     val post = value.toObjects(Post::class.java)

@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.screen
+package com.zeroone.instagramclone_jetpackcompose.presentation.screen.feeds
 
 import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,22 +8,21 @@ import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Post
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Response
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.DiscoveryPostTopBar
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.DiscoveryPostTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards.PostCard
 
 @Composable
-fun DiscoveryPostScreen(
+fun FeedsScreen(
     appState: AppState,
-    discoveryViewModel: DiscoveryViewModel = hiltViewModel(),
+    feedsViewModel: FeedsViewModel = hiltViewModel(),
     currentItem: String
 ) {
 
     val navController by remember { mutableStateOf(appState.navHostController) }
-    val viewModel by remember { mutableStateOf(discoveryViewModel) }
+    val viewModel by remember { mutableStateOf(feedsViewModel) }
 
 
     Scaffold(
@@ -41,7 +40,7 @@ fun DiscoveryPostScreen(
                         "discoveryApp",
                         "DiscoveryScreen_posts: response success ${result.data.size}"
                     )
-                    Content(result.data,currentItem)
+                    Content(result.data, currentItem)
                 }
             }
         }
@@ -54,8 +53,8 @@ private fun Content(
     currentItem: String
 ) {
 
-    val firstItem = posts.find { it.id==currentItem }
-    val items = posts.filterNot { it.id==currentItem }
+    val firstItem = posts.find { it.id == currentItem }
+    val items = posts.filterNot { it.id == currentItem }
 
     LazyColumn {
         item {

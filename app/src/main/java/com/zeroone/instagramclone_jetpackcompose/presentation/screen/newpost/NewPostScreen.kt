@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zeroone.instagramclone_jetpackcompose.R
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.appbar.NewPostTopBar
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.NewPostTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading

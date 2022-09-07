@@ -1,7 +1,6 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,15 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Post
+import com.zeroone.instagramclone_jetpackcompose.domain.model.User
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppProfileImage
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppText
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
 
 @Composable
 fun PostCard(post: Post) {
@@ -29,10 +29,11 @@ fun PostCard(post: Post) {
         elevation = 1.dp,
         shape = RectangleShape,
     ) {
-        Column{
+
+        Column {
             Head(post)
             Body(post)
-            Bottom()
+            Bottom(post)
         }
     }
 }
@@ -40,30 +41,23 @@ fun PostCard(post: Post) {
 @Composable
 private fun Head(post: Post) {
     Row(
-        modifier = Modifier.padding(start = 4.dp, bottom = 8.dp, top = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier
+            .padding(start = 4.dp, bottom = 8.dp, top = 8.dp)
+            .clickable {  },
+        verticalAlignment = Alignment.CenterVertically,
+
     ) {
 
-        AppProfileImage(
-            painterResourceId = null, size = 56.dp
-        )
+        AppProfileImage(photoUrl = post.owner["photoUrl"], size = 50.dp)
 
-        Column(
+        AppText(
+            text = post.owner["displayName"]!!,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(start = 8.dp)
-        ) {
-
-            AppText(
-                text = post.title,
-                fontWeight = FontWeight.Bold,
-            )
-            AppText(
-                text = post.description,
-                fontSize = 14.sp
-            )
-        }
+                .padding(start = 8.dp),
+        )
 
         IconButton(onClick = { /*TODO*/ }) {
             Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
@@ -79,7 +73,7 @@ private fun Body(post: Post) {
             .height(375.dp)
     ) {
         AsyncImage(
-            model =  post.photoUrl,
+            model = post.photoUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop
         )
@@ -87,7 +81,9 @@ private fun Body(post: Post) {
 }
 
 @Composable
-private fun Bottom() {
+private fun Bottom(
+    post: Post
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -103,8 +99,10 @@ private fun Bottom() {
             )
         }
         IconButton(onClick = { /*TODO*/ }) {
-            Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null)
-        }
+            Icon(
+                painter = painterResource(id = R.drawable.ic_dm),
+                contentDescription = null
+            )}
 
         Spacer(
             modifier = Modifier
@@ -117,12 +115,22 @@ private fun Bottom() {
         }
     }
 
-    Row(modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)){
+    Row(modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)) {
+
         AppText(
-            text = stringResource(id = R.string.lorem),
+            text = post.owner["displayName"]!!,
+            maxLines = 3,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+
+
+        AppText(
+            text = post.caption,
             maxLines = 3,
             fontSize = 14.sp,
         )
     }
-    
+
 }
