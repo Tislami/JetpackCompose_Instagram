@@ -7,9 +7,7 @@ import com.zeroone.instagramclone_jetpackcompose.domain.use_case.auth.*
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.main.MainUseCase
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.main.SearchUser
 import com.zeroone.instagramclone_jetpackcompose.domain.use_case.post.*
-import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.GetUser
-import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.SetUser
-import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.UserUseCase
+import com.zeroone.instagramclone_jetpackcompose.domain.use_case.user.*
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.AuthViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.DiscoveryViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.newpost.NewPostViewModel
@@ -42,6 +40,7 @@ object AppModule {
     fun provideUserRepository(firebaseDatabase: FirebaseDatabase): UserRepository {
         return UserRepositoryImpl(
             auth = firebaseDatabase.auth,
+            firestore = firebaseDatabase.firestore,
             userCollection = firebaseDatabase.userCollection
         )
     }
@@ -110,6 +109,9 @@ object AppModule {
         return UserUseCase(
             getUser = GetUser(userRepository),
             setUser = SetUser(userRepository),
+            follow = Follow(userRepository),
+            unFollow = UnFollow(userRepository),
+            getFollow = GetFollow(userRepository)
         )
     }
 

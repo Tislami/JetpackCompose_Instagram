@@ -17,6 +17,7 @@ import com.zeroone.instagramclone_jetpackcompose.domain.model.User
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.EditProfileTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Screens
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserEvent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.edit.EditProfileViewModel
@@ -42,7 +43,7 @@ fun SetUserScreen(
             when (uiEvent) {
                 is UserViewModel.UIEvent.Set -> {
                     Log.d("AppAuth", "CreateUserContent: User logged event")
-                    appState.navHostController.navigate(Graph.HOME)
+                    appState.navHostController.navigate(Screens.Home.route)
                 }
                 is UserViewModel.UIEvent.Error -> {
                     Log.d("AppAuth", "CreateUserContent: User error event")

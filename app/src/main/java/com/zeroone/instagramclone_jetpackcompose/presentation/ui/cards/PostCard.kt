@@ -1,5 +1,12 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.ui.cards
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -9,10 +16,14 @@ import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -24,14 +35,17 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.A
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppTextButton
 
 @Composable
-fun PostCard(post: Post) {
+fun PostCard(
+    post: Post,
+    onClick: (String) -> Unit,
+) {
     Card(
         elevation = 1.dp,
         shape = RectangleShape,
     ) {
 
         Column {
-            Head(post)
+            Head(post, onClick)
             Body(post)
             Bottom(post)
         }
@@ -39,14 +53,17 @@ fun PostCard(post: Post) {
 }
 
 @Composable
-private fun Head(post: Post) {
+private fun Head(
+    post: Post,
+    onClick: (String) -> Unit,
+) {
     Row(
         modifier = Modifier
             .padding(start = 4.dp, bottom = 8.dp, top = 8.dp)
-            .clickable {  },
+            .clickable { onClick(post.owner["id"]!!) },
         verticalAlignment = Alignment.CenterVertically,
 
-    ) {
+        ) {
 
         AppProfileImage(photoUrl = post.owner["photoUrl"], size = 50.dp)
 
@@ -102,7 +119,8 @@ private fun Bottom(
             Icon(
                 painter = painterResource(id = R.drawable.ic_dm),
                 contentDescription = null
-            )}
+            )
+        }
 
         Spacer(
             modifier = Modifier

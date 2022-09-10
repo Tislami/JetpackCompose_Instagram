@@ -19,6 +19,7 @@ import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.NewPostTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Screens
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppEditTextField
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppText
@@ -40,7 +41,7 @@ fun NewPostScreen(
                     Log.d("PostApp", "NewPostScreen: error event ${uiEvent.message}")
                 }
                 is NewPostViewModel.UIEvent.Posted -> {
-                    navController.navigate(Graph.HOME)
+                    navController.navigate(Screens.Home.route)
                     Log.d("PostApp", "NewPostScreen: Success")
                 }
             }

@@ -23,7 +23,7 @@ class MainRepositoryImpl(
                 val response = if (value!=null){
                     val users = mutableListOf<User>()
                     value.documents.forEach {document ->
-                        val name :String = document.data?.get("name") as String
+                        val name :String = document.data?.get("displayName") as String
                         if (name.lowercase().contains(query.lowercase())){
                             users.add(document.toObject(User::class.java)!!)
                         }

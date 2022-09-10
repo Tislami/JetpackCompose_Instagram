@@ -1,6 +1,5 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.profile
+package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.common
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -12,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.domain.model.defaultUser
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appcomponents.AppSearchTextField

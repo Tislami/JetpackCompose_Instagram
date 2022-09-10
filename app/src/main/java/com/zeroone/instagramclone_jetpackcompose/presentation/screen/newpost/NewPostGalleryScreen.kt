@@ -20,8 +20,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.AddTopBar
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
-import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.NewPostScreens
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Add
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Screens
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
 import java.io.File
 import java.io.FileInputStream
@@ -43,7 +44,7 @@ fun AddScreen(
                 }
                 NewPostViewModel.UIEvent.PhotoAdded -> {
                     Log.d("PostApp", "AddScreen: success event ")
-                    navController.navigate(NewPostScreens.NewPost.route)
+                    navController.navigate(Add.NewPostScreen.route)
                 }
             }
         }
@@ -53,7 +54,7 @@ fun AddScreen(
         scaffoldState = appState.scaffoldState,
         topBar = {
             AddTopBar(
-                cancelOnClick = { navController.navigate(Graph.HOME) },
+                cancelOnClick = { navController.navigate(Screens.Home.route) },
                 forwardOnClick = {
                     Log.d("PostApp", "AddScreen: forward Clicked")
                     newPostViewModel.onEvent(

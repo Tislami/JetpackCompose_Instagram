@@ -14,6 +14,7 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.auth.conten
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.AuthScreens
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Screens
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserEvent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.UserViewModel
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
@@ -38,7 +39,7 @@ fun AuthScreen(
             when (uiEvent) {
                 is AuthViewModel.UIEvent.Login -> {
                     Log.d("AppAuth", "Auth_Screen: Auth login event")
-                    userViewModel.onEvent(UserEvent.GetUser(uiEvent.id))
+                    userViewModel.onEvent(UserEvent.CheckUserState(uiEvent.id))
                 }
                 is AuthViewModel.UIEvent.CreateUser -> {
                     Log.d("AppAuth", "Auth_Screen: Auth create user event")
@@ -57,7 +58,7 @@ fun AuthScreen(
             when (uiEvent) {
                 is UserViewModel.UIEvent.Set -> {
                     Log.d("AppAuth", "Auth_Screen: User logged event")
-                    appState.navHostController.navigate(Graph.HOME)
+                    appState.navHostController.navigate(Screens.Home.route)
                 }
                 is UserViewModel.UIEvent.Error -> {
                     Log.d("AppAuth", "Auth_Screen: User error event")

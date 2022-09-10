@@ -23,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.zeroone.instagramclone_jetpackcompose.R
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.ProfileScreens
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Screens
 
 
 @Composable
@@ -34,10 +35,9 @@ fun AppBottomBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    if (currentDestination?.route == Graph.HOME ||
-        currentDestination?.route == Graph.NOTIFICATION ||
-        currentDestination?.route == Graph.DISCOVERY ||
-        currentDestination?.route == Graph.FEEDS ||
+    if (currentDestination?.route == Screens.Home.route ||
+        currentDestination?.route == Screens.Discovery.route ||
+        currentDestination?.route == Screens.OtherUser.route ||
         currentDestination?.route == ProfileScreens.Profile.route
             ) {
         BottomNavigation(
@@ -66,13 +66,13 @@ sealed class BottomBarScreen(
     val icon: ImageVector
 ) {
     object Home : BottomBarScreen(
-        route = Graph.HOME,
+        route = Screens.Home.route,
         title = "Home",
         icon = Icons.Default.Home
     )
 
     object Discovery : BottomBarScreen(
-        route = Graph.DISCOVERY,
+        route = Screens.Discovery.route,
         title = "Discovery",
         icon = Icons.Default.Search
     )
@@ -84,7 +84,7 @@ sealed class BottomBarScreen(
     )
 
     object Notification : BottomBarScreen(
-        route = Graph.NOTIFICATION,
+        route = Screens.Notification.route,
         title = "Notification",
         icon = Icons.Default.Favorite
     )

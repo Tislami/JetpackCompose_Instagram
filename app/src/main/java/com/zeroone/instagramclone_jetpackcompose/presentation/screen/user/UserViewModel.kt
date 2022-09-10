@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    val useCase: UseCase
+    private val useCase: UseCase,
 ) : ViewModel() {
 
     private val _userState = mutableStateOf(UserState())
@@ -26,10 +26,9 @@ class UserViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     val isLoading = mutableStateOf(false)
-    private var job : Job?= null
+    private var job: Job? = null
 
-    private fun setUser(user: User )
-    {
+    private fun setUser(user: User) {
         Log.d("AppAuth", "user_viewModel_set: set init")
         job?.cancel()
         job = viewModelScope.launch {
@@ -54,11 +53,44 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    private fun getUser(id: String) {
-        Log.d("AppAuth", "user_viewModel_get: init")
+    private fun checkUserState(id: String) {
+        Log.d("AppAuth", "user_viewModel_check: init")
         job?.cancel()
         job = viewModelScope.launch {
             useCase.userUseCase.getUser(id = id).collect { response ->
+                when (response) {
+                    is Response.Error -> {
+                        Log.d("AppAuth", "user_viewModel_check: error ${response.message}")
+                        isLoading.value = false
+                        _eventFlow.emit(UIEvent.Error(response.message))
+                    }
+                    is Response.Loading -> {
+                        isLoading.value = true
+                    }
+                    is Response.Success -> {
+                        isLoading.value = false
+                        if (response.data != null) {
+                            Log.d(
+                                "AppAuth",
+                                "user_viewModel_check: success result ${response.data.id}"
+                            )
+                            _userState.value = userState.value.copy(user = response.data)
+                            _eventFlow.emit(UIEvent.Set)
+                        } else {
+                            _eventFlow.emit(UIEvent.NotCompleted)
+                            Log.d("AppAuth", "user_viewModel_check: success result not completed")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getUser() {
+        Log.d("AppAuth", "user_viewModel_get: init")
+        job?.cancel()
+        job = viewModelScope.launch {
+            useCase.userUseCase.getUser(userState.value.user.id).collect { response ->
                 when (response) {
                     is Response.Error -> {
                         Log.d("AppAuth", "user_viewModel_get: error ${response.message}")
@@ -71,12 +103,15 @@ class UserViewModel @Inject constructor(
                     is Response.Success -> {
                         isLoading.value = false
                         if (response.data != null) {
-                            Log.d("AppAuth", "user_viewModel_get: success result ${response.data.posts.size}")
+                            Log.d(
+                                "AppAuth",
+                                "user_viewModel_get: success result ${response.data.id}"
+                            )
                             _userState.value = userState.value.copy(user = response.data)
-                            _eventFlow.emit(UIEvent.Set)
+                            getUserPosts()
                         } else {
-                            _eventFlow.emit(UIEvent.NotCompleted)
-                            Log.d("AppAuth", "user_viewModel_get: success result not completed")
+                            _eventFlow.emit(UIEvent.Error("Unknown Error"))
+                            Log.d("AppAuth", "user_viewModel_get: success but Unknown Error")
                         }
                     }
                 }
@@ -102,22 +137,30 @@ class UserViewModel @Inject constructor(
          }
      }*/
 
-    private fun getUserPosts(id : String) {
+    private fun getUserPosts() {
         Log.d("PostApp", "user_viewModel_getUserPosts: init")
 
         job?.cancel()
         job = viewModelScope.launch {
-            useCase.postUseCase.getUserPosts(id).collect { response ->
-                when(response){
+            useCase.postUseCase.getUserPosts(userState.value.user.id).collect { response ->
+                when (response) {
                     is Response.Error -> {
-                        Log.d("PostApp", "user_viewModel_getUserPosts: response error ${response.message}")
-                        isLoading.value=false
+                        Log.d(
+                            "PostApp",
+                            "user_viewModel_getUserPosts: response error ${response.message}"
+                        )
+                        isLoading.value = false
                         _eventFlow.emit(UIEvent.Error(response.message))
                     }
-                    is Response.Loading -> { isLoading.value=true }
+                    is Response.Loading -> {
+                        isLoading.value = true
+                    }
                     is Response.Success -> {
-                        Log.d("PostApp", "user_viewModel_getUserPosts: response success ${response.data.size}")
-                        isLoading.value=false
+                        Log.d(
+                            "PostApp",
+                            "user_viewModel_getUserPosts: response success ${response.data.size}"
+                        )
+                        isLoading.value = false
                         _userState.value = userState.value.copy(
                             posts = response.data
                         )
@@ -128,17 +171,61 @@ class UserViewModel @Inject constructor(
     }
 
 
+    private fun getFollowers() {
+        viewModelScope.launch {
+            useCase.userUseCase.getFollow(userState.value.user.followers)
+                .collect { response ->
+                when (response) {
+                    is Response.Error -> {
+                        isLoading.value = false
+                        _eventFlow.emit(UIEvent.Error(response.message))
+                    }
+                    is Response.Loading -> {
+                        isLoading.value = true
+                    }
+                    is Response.Success -> {
+                        isLoading.value = false
+                        _userState.value = userState.value.copy(
+                            followers = response.data
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getFollowing(){
+        viewModelScope.launch {
+            useCase.userUseCase.getFollow(userState.value.user.following).collect { response ->
+                when (response) {
+                    is Response.Error -> {
+                        isLoading.value = false
+                        _eventFlow.emit(UIEvent.Error(response.message))
+                    }
+                    is Response.Loading -> {
+                        isLoading.value = true
+                    }
+                    is Response.Success -> {
+                        isLoading.value = false
+                        _userState.value = userState.value.copy(
+                            following = response.data
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+
     fun onEvent(event: UserEvent) {
         when (event) {
-            is UserEvent.SetUser -> {
-                setUser(event.user)
-            }
-            is UserEvent.GetUser -> {
-                getUser(event.data)
-            }
-            is UserEvent.GetUserPosts -> {
-                getUserPosts(event.data)
-            }
+            is UserEvent.SetUser -> setUser(event.user)
+            is UserEvent.CheckUserState -> checkUserState(event.userId)
+            is UserEvent.GetUserPosts -> getUserPosts()
+            is UserEvent.GetFollowers -> getFollowers()
+            is UserEvent.GetFollowing -> getFollowing()
+            is UserEvent.GetUser -> getUser()
+            UserEvent.SingOut -> {}
         }
     }
 

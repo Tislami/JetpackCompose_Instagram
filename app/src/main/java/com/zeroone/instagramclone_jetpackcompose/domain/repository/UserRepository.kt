@@ -4,6 +4,7 @@ package com.zeroone.instagramclone_jetpackcompose.domain.repository
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zeroone.instagramclone_jetpackcompose.data.FirebaseDatabase
 import com.zeroone.instagramclone_jetpackcompose.domain.model.Post
@@ -20,13 +21,18 @@ import kotlinx.coroutines.tasks.await
 
 interface UserRepository {
     fun getUser(id: String): Flow<Response<User?>>
+    fun getFollow(idList: List<String>): Flow<Response<List<User>>>
     fun setUser(user: User): Flow<Response<User>>
+    fun follow(id: String) : Flow<Response<Boolean>>
+    fun unFollow(id: String) : Flow<Response<Boolean>>
     fun signOut(): Flow<Response<Boolean>>
 }
 
 class UserRepositoryImpl(
     private val auth: FirebaseAuth,
-    private val userCollection: CollectionReference) : UserRepository {
+    private val userCollection: CollectionReference,
+    private val firestore: FirebaseFirestore,
+    ) : UserRepository {
 
     override fun setUser(user: User) = flow {
         try {
@@ -57,7 +63,7 @@ class UserRepositoryImpl(
 
     override fun getUser(id: String) = callbackFlow {
         trySend(Response.Loading)
-        Log.d("AppAuth", "user_repo_get: init ")
+        Log.d("AppAuth", "user_repo_get: init $id")
         val snapshotListener = userCollection.document(id)
             .addSnapshotListener { value, error ->
                 val response= if (value != null) {
@@ -74,6 +80,81 @@ class UserRepositoryImpl(
             }
         awaitClose {
             snapshotListener.remove()
+        }
+    }
+
+    override fun follow(id: String) = flow {
+        try {
+            Log.d("FollowApp", "UserRepo_follow: init")
+            var result : Response<Boolean> = Response.Loading
+            emit(result)
+
+            val currentUser = userCollection.document(auth.currentUser!!.uid)
+            val otherUser = userCollection.document(id)
+
+            firestore.runBatch {batch ->
+                batch.update(currentUser,"following",  FieldValue.arrayUnion(id))
+                batch.update(otherUser,"followers", FieldValue.arrayUnion(auth.currentUser!!.uid))
+            }.addOnSuccessListener {
+                Log.d("FollowApp", "UserRepo_follow: result success")
+                result = Response.Success(true)
+            }.addOnFailureListener {
+                Log.d("FollowApp", "UserRepo_follow: result error ${it.message }")
+                result = Response.Error(it.message ?: "Error")
+            }.await()
+            emit(result)
+        }catch (e:Exception){
+            Log.d("FollowApp", "UserRepo_follow: error ${e.message }")
+            emit(Response.Error(e.message?:""))
+        }
+    }
+
+    override fun unFollow(id: String) = flow {
+        try {
+            Log.d("FollowApp", "UserRepo_unfollow: init")
+
+            var result : Response<Boolean> = Response.Loading
+            emit(result)
+
+            val currentUser = userCollection.document(auth.currentUser!!.uid)
+            val otherUser = userCollection.document(id)
+
+            firestore.runBatch {batch ->
+                batch.update(currentUser,"following",  FieldValue.arrayRemove(id))
+                batch.update(otherUser,"followers", FieldValue.arrayRemove(auth.currentUser!!.uid))
+            }.addOnSuccessListener {
+                Log.d("FollowApp", "UserRepo_unfollow: result success")
+                result = Response.Success(true)
+            }.addOnFailureListener {
+                Log.d("FollowApp", "UserRepo_unfollow: result error ${it.message }")
+                result = Response.Error(it.message ?: "Error")
+            }.await()
+            emit(result)
+        }catch (e:Exception){
+            Log.d("FollowApp", "UserRepo_unfollow: error ${e.message }")
+            emit(Response.Error(e.message?:""))
+        }
+    }
+
+    override fun getFollow(idList: List<String>) = callbackFlow {
+        val snapshot = userCollection.addSnapshotListener { value, error ->
+            val response = if (value!=null) {
+                val followers = mutableListOf<User>()
+                for (document in value){
+                    if (idList.contains(document.id)){
+                        val user = document.toObject(User::class.java)
+                        followers.add(user)
+                    }
+                }
+                Response.Success(followers)
+            }
+            else {
+                Response.Error(error?.message ?: "")
+            }
+            trySend(response)
+        }
+        awaitClose {
+            snapshot.remove()
         }
     }
 

@@ -1,6 +1,10 @@
 package com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -14,9 +18,7 @@ fun NavGraphBuilder.authNavGraph(appState: AppState) {
     navigation(
         route = Graph.AUTHENTICATION,
         startDestination = AuthScreens.Auth.route,
-
     ) {
-
         composable(route = AuthScreens.Auth.route) {
             AuthScreen(appState = appState)
         }
@@ -29,7 +31,5 @@ fun NavGraphBuilder.authNavGraph(appState: AppState) {
 
 sealed class AuthScreens(val route: String) {
     object Auth : AuthScreens(route = "auth")
-    object SetProfile : AuthScreens(route = "set_profile"){
-
-    }
+    object SetProfile : AuthScreens(route = "set_profile")
 }

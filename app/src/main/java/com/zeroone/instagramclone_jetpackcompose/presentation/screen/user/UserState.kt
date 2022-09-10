@@ -6,6 +6,6 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.
 data class UserState(
     val user: User = User(),
     val posts: List<Post> = emptyList(),
-    val followers: List<Post> = emptyList(),
-    val following: List<Post> = emptyList(),
+    val followers: List<User> = emptyList(),
+    val following: List<User> = emptyList(),
 )

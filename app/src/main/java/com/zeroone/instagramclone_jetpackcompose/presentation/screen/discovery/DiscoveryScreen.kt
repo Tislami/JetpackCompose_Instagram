@@ -9,7 +9,9 @@ import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.Discover
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.discovery.content.DiscoveryPostContent
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.main.AppState
 import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Graph
+import com.zeroone.instagramclone_jetpackcompose.presentation.screen.navigation.Screens
 import com.zeroone.instagramclone_jetpackcompose.presentation.ui.Loading
+import com.zeroone.instagramclone_jetpackcompose.presentation.ui.appbar.DiscoveryPostTopBar
 
 @Composable
 fun DiscoveryScreen(
@@ -18,29 +20,42 @@ fun DiscoveryScreen(
 ) {
     val navController by remember { mutableStateOf(appState.navHostController) }
     val viewModel by remember { mutableStateOf(discoveryViewModel) }
+    val isCollapsed = remember { mutableStateOf(true) }
 
     Scaffold(
         topBar = {
-            DiscoveryTopBar(
-                query = viewModel.queryText.value,
-                onValueChange = viewModel::query,
-                onFocusChange = viewModel::setFocus ,
-            )
+            if (isCollapsed.value)
+                DiscoveryTopBar(
+                    query = viewModel.queryText.value,
+                    onValueChange = viewModel::query,
+                    onFocusChange = viewModel::setFocus,
+                )
+            else
+                DiscoveryPostTopBar { navController.navigate(Screens.Discovery.route) }
         },
         content = {
             if (viewModel.queryText.value.isNotEmpty()) {
                 when (val result = discoveryViewModel.queryState.value) {
                     is Response.Error -> {
-                        Log.d("discoveryApp", "DiscoveryScreen_query: response error ${result.message}")
-                        LaunchedEffect(key1 = true){
-                            appState.showSnackBar(result.message) }
+                        Log.d(
+                            "discoveryApp",
+                            "DiscoveryScreen_query: response error ${result.message}"
+                        )
+                        LaunchedEffect(key1 = true) {
+                            appState.showSnackBar(result.message)
+                        }
                     }
-                    is Response.Loading -> { Loading() }
+                    is Response.Loading -> {
+                        Loading()
+                    }
                     is Response.Success -> {
                         if (result.data.isNotEmpty()) {
-                            Log.d("discoveryApp", "DiscoveryScreen_query: response success ${result.data.size}")
-                            DiscoveryUserContent(users = result.data, onClick = {userId->
-                                navController.navigate(Graph.OTHER_USER + "/${userId}")
+                            Log.d(
+                                "discoveryApp",
+                                "DiscoveryScreen_query: response success ${result.data.size}"
+                            )
+                            DiscoveryUserContent(users = result.data, onClick = { userId ->
+                                navController.navigate(Screens.OtherUser.route + "/${userId}")
                             })
                         }
                     }
@@ -48,17 +63,27 @@ fun DiscoveryScreen(
             } else {
                 when (val result = discoveryViewModel.postsState.value) {
                     is Response.Error -> {
-                        Log.d("discoveryApp", "DiscoveryScreen_posts: response error ${result.message}")
+                        Log.d(
+                            "discoveryApp",
+                            "DiscoveryScreen_posts: response error ${result.message}"
+                        )
                         LaunchedEffect(key1 = true) {
                             appState.showSnackBar(result.message)
                         }
                     }
                     is Response.Loading -> Loading()
                     is Response.Success -> {
-                        Log.d("discoveryApp", "DiscoveryScreen_posts: response success ${result.data.size}")
-                        DiscoveryPostContent(posts = result.data, onClick = {postId->
-                            navController.navigate(Graph.FEEDS + "/$postId")
-                        })
+                        Log.d(
+                            "discoveryApp",
+                            "DiscoveryScreen_posts: response success ${result.data.size}"
+                        )
+                        DiscoveryPostContent(
+                            posts = result.data,
+                            isCollapsed = isCollapsed,
+                            onClickUser = { userId ->
+                                navController.navigate(Screens.OtherUser.route + "/${userId}")
+                            }
+                        )
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user
+package com.zeroone.instagramclone_jetpackcompose.presentation.screen.user.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

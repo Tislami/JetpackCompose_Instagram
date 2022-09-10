@@ -4,7 +4,7 @@ data class User(
     val id: String="",
     val email: String ="",
     val name: String ="",
-    val gender: String ="Female",
+    val gender: String ="",
     val lastname: String ="",
     val displayName: String ="",
     val bio: String = "",
