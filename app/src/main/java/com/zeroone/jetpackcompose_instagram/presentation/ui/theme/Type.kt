@@ -1,4 +1,4 @@
-package com.zeroone.jetpackcompose_instagram.ui.theme
+package com.zeroone.jetpackcompose_instagram.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
