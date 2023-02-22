@@ -16,6 +16,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.zeroone.jetpackcompose_instagram.presentation.screen.auth.content.LoginScreen
+import com.zeroone.jetpackcompose_instagram.presentation.screen.auth.registration.RegistrationScreen
 import com.zeroone.jetpackcompose_instagram.presentation.ui.theme.InstagramClone_JetpackComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,11 +31,7 @@ class MainActivity : ComponentActivity() {
             val navHostController = rememberAnimatedNavController()
 
             InstagramClone_JetpackComposeTheme {
-                Surface(
-                    color = MaterialTheme.colors.background
-                ) {
-                    Auth
-                }
+                RegistrationScreen()
             }
         }
     }
