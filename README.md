@@ -1,6 +1,6 @@
 # JetpackCompose_Instagram
 
-This is an Instagram clone application built using Jetpack Compose, Firebase Auth, and Firebase Firestore. It follows the MVVM architectural pattern with a Repository layer to handle data fetching and storage.
+This is an Instagram clone application built using Jetpack Compose, Firebase Auth, and Firebase Firestore. It follows the MVVM architectural pattern with a Repository layer to handle data fetching and storage.  
 This project also follows the Clean Architecture principles.
 
 # Features
@@ -19,6 +19,8 @@ This project also follows the Clean Architecture principles.
 * Clean Architecture
 
 # Photos
+
+
 
 <img width="319" alt="Ekran Resmi 2023-04-02 17 24 26" src="https://user-images.githubusercontent.com/41927152/229380809-d26504eb-54ce-45a5-a9bd-62897f6b622b.png">
 <img width="319" alt="Ekran Resmi 2023-04-02 17 24 45" src="https://user-images.githubusercontent.com/41927152/229380810-9350bdc2-7beb-4b84-b38a-7ec980cab93d.png">
